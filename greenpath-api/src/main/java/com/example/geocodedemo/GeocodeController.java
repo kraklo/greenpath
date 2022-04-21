@@ -25,4 +25,18 @@ public class GeocodeController {
         GeocodeResult result = objectMapper.readValue(responseBody.string(), GeocodeResult.class);
         return result;
     }
+
+    @RequestMapping(path = "/geocode2", method = RequestMethod.GET )
+    public String getGeocode2(@RequestParam String address) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String encodedAddress = URLEncoder.encode(address, "UTF-8");
+        Request request = new Request.Builder()
+                .url("https://google-maps-geocoding.p.rapidapi.com/geocode/json?language=en&address=" + encodedAddress)
+                .get()
+                .addHeader("x-rapidapi-host", "google-maps-geocoding.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "b635c1a042msh42c1f3d59464a4ep140ee4jsn586d1a6e07a0")
+                .build();
+        ResponseBody responseBody = client.newCall(request).execute().body();
+        return responseBody.string();
+    }
 }

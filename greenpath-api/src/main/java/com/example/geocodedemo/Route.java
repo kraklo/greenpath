@@ -6,11 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DirectionResult
+public class Route
 {
-    @JsonProperty("geocoded_waypoints")
-    public List<GeocodedWaypoint> geocodedWaypointList;
+    @JsonProperty("bounds")
+    public Bounds boundList;
 
-    @JsonProperty("routes")
-    public List<Route> routeList;
+    @JsonProperty("copyrights")
+    public String copyrights;
+
+    @JsonProperty("legs")
+    public List<Leg> legs;
 }

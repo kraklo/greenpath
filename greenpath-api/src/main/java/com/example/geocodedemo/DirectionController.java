@@ -13,13 +13,13 @@ public class DirectionController {
     final String GOOGLE_MAPS_API = "https://maps.googleapis.com/maps/api/directions/json?";
 
     @RequestMapping(path = "/direction", method = RequestMethod.GET )
-    public String getDirection(@RequestParam String origin, @RequestParam String destination) throws IOException {
+    public DirectionResult getDirection(@RequestParam String origin, @RequestParam String destination) throws IOException {
         DirectionApi requestTest = new DirectionApi(origin, destination);
         DirectionResult transitResult = requestTest.mode(TravelMode.TRANSIT).getResult();
         String savedUrl = requestTest.getUrl();
 //        DirectionResult walkingResult = requestTest.mode(TravelMode.WALKING).getResult();
 //        DirectionResult drivingResult = requestTest.mode(TravelMode.DRIVING).getResult();
 //        DirectionResult bicyclingResult = requestTest.mode(TravelMode.BICYCLING).getResult();
-        return "Target Url: "+savedUrl+"\n"+transitResult.body;
+        return transitResult;
     }
 }
