@@ -13,4 +13,6 @@ public class DirectionResult
 
     @JsonProperty("routes")
     public List<Route> routeList;
+
+
 }

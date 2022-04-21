@@ -8,5 +8,5 @@ public class TextValue
     public String text;
 
     @JsonProperty("value")
-    public float value;
+    public double value;
 }

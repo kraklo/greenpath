@@ -20,9 +20,13 @@ public class Step
     public String htmlInstructions;
 
     //Skip polyline?
+    @JsonProperty("travel_mode")
+    public TravelMode travelMode;
 
     @JsonProperty("start_location")
     public Location startLocation;
 
-
+    //Added properties
+    @JsonProperty("emissions_step")
+    public double emissions;
 }

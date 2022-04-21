@@ -16,4 +16,7 @@ public class Route
 
     @JsonProperty("legs")
     public List<Leg> legs;
+
+    @JsonProperty("emissions")
+    public double emissions;
 }
