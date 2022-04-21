@@ -33,17 +33,18 @@ function addressSelected() {
     const addressOrigin = placeOrigin?.formatted_address;
     const addressDestination = placeDestination?.formatted_address;
 
-    if (addressOrigin && addressDestination) {
-        // do something to allow both to be sent
-        document.getElementById('test_address').innerHTML = 'Ready to send!';
-        return;
-    }
-
     if (!addressOrigin) {
         document.getElementById(autocompleteOrigin.id).placeholder = autocompleteOrigin.placeholder;
     }
 
     if (!addressDestination) {
         document.getElementById(autocompleteDestination.id).placeholder = autocompleteDestination.placeholder;
+    }
+}
+
+function getAddresses() {
+    return {
+        origin: autocompleteOrigin.autocomplete.getPlace()?.formatted_address,
+        destination: autocompleteDestination.autocomplete.getPlace()?.formatted_address
     }
 }

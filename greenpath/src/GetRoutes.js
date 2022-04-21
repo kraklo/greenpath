@@ -40,14 +40,29 @@ class RouteRenderer extends React.Component {
     super(props);
     this.state = {
       routes: Array(sampleApiReturn.length).fill(null),
+      error: null,
     };
   }
 
+  sendAddresses() {
+    this.setState({ error: null });
+    const getAddresses = () => window['getAddresses']();
+    const addresses = getAddresses();
+    console.log(addresses);
+    if (addresses.origin && addresses.destination) {
+      // send to api
+    } else {
+      this.setState({ error: 'Two valid addresses not input' });
+    }
+  }
+
   getAllRoutes() {
-    const routes = this.state.routes.slice();
-    sampleApiReturn.forEach(route => routes[route.rank] = route);
-    this.setState({ routes: routes });
-    console.log(routes);
+    this.sendAddresses();
+    if (!this.state.error) {
+      const routes = this.state.routes.slice();
+      sampleApiReturn.forEach(route => routes[route.rank] = route);
+      this.setState({ routes: routes });
+    }
   }
 
   renderRoute(route) {
@@ -55,6 +70,11 @@ class RouteRenderer extends React.Component {
   }
 
   renderAllRoutes() {
+    if (this.state.error) {
+      return (
+        <span style={{ color: 'red' }}> {this.state.error}</span>
+      );
+    }
     const routes = [];
     this.state.routes.forEach(route => routes.push(this.renderRoute(route)));
     return routes;
