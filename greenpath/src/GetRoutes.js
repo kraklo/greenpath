@@ -1,4 +1,3 @@
-import './App.css';
 import React from 'react';
 
 const sampleApiReturn = [
@@ -68,19 +67,19 @@ class RouteRenderer extends React.Component {
   render() {
     return (
       <div>
-        {this.renderAllRoutes()}
         {this.renderRouteGetter()}
+        {this.renderAllRoutes()}
       </div>
     );
   }
 }
 
-function App() {
+function GetRoutes() {
   return (
-    <div className="App">
+    <div className="GetRoutes">
       <RouteRenderer />
     </div>
   );
 }
 
-export default App;
+export default GetRoutes;
