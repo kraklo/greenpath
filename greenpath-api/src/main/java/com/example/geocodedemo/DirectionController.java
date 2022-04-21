@@ -13,22 +13,13 @@ public class DirectionController {
     final String GOOGLE_MAPS_API = "https://maps.googleapis.com/maps/api/directions/json?";
 
     @RequestMapping(path = "/direction", method = RequestMethod.GET )
-    public String GetDirection(@RequestParam String destination, @RequestParam String origin) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        String encodedOrigin = URLEncoder.encode(origin, "UTF-8");
-        String encodedDestination = URLEncoder.encode(destination, "UTF-8");
-        UrlBuilder url = new UrlBuilder(GOOGLE_MAPS_API);
-        url.putField("origin", encodedOrigin);
-        url.putField("destination", encodedDestination);
-        url.putField("travelMode", "WALKING");
-        url.putField("key", "AIzaSyAnNsnPh-FrN1x_dNAOpkZJdkI7s2E81AI");
-
-        String targetUrl = url.GetUrl();
-        Request request = new Request.Builder()
-        .url(targetUrl)
-        .get()
-        .build();
-        ResponseBody responseBody = client.newCall(request).execute().body();
-        return "Target Url: "+targetUrl+"\n"+responseBody.string();
+    public String getDirection(@RequestParam String origin, @RequestParam String destination) throws IOException {
+        DirectionApi requestTest = new DirectionApi(origin, destination);
+        DirectionResult transitResult = requestTest.mode(TravelMode.TRANSIT).getResult();
+        String savedUrl = requestTest.getUrl();
+//        DirectionResult walkingResult = requestTest.mode(TravelMode.WALKING).getResult();
+//        DirectionResult drivingResult = requestTest.mode(TravelMode.DRIVING).getResult();
+//        DirectionResult bicyclingResult = requestTest.mode(TravelMode.BICYCLING).getResult();
+        return "Target Url: "+savedUrl+"\n"+transitResult.body;
     }
 }
