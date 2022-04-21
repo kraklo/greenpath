@@ -15,13 +15,12 @@ public class DirectionController {
         OkHttpClient client = new OkHttpClient();
         String encodedOrigin = URLEncoder.encode(origin, "UTF-8");
         String encodedDestination = URLEncoder.encode(destination, "UTF-8");
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin="+encodedOrigin+"&destination="+encodedDestination+"&key=AIzaSyAnNsnPh-FrN1x_dNAOpkZJdkI7s2E81AI\n";
         Request request = new Request.Builder()
-                .url("https://google-maps28.p.rapidapi.com/maps/api/directions/json?language=en&destination=" + encodedDestination + "&origin=" + encodedOrigin)
-                .get()
-                .addHeader("x-rapidapi-host", "google-maps28.p.rapidapi.com")
-                .addHeader("x-rapidapi-key", "b635c1a042msh42c1f3d59464a4ep140ee4jsn586d1a6e07a0")
-                .build();
+        .url(url)
+        .get()
+        .build();
         ResponseBody responseBody = client.newCall(request).execute().body();
-        return responseBody.string();
+        return "Target Url: "+url+"\n"+responseBody.string();
     }
 }
