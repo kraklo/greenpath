@@ -1,4 +1,4 @@
-package com.example.greenpathapi;
+package com.example.geocodedemo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
