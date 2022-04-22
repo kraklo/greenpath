@@ -10,11 +10,6 @@ const options = {
     types: []
 };
 
-let addresses = {
-    origin: '',
-    destination: ''
-};
-
 function AutocompleteField(props) {
     return (
         <Autocomplete
@@ -26,14 +21,7 @@ function AutocompleteField(props) {
     );
 }
 
-class GetAutocompletes extends React.Component {
-    constructor(props) {
-        super(props);
-        this.setState({
-            originAddress: '',
-            destinationAddress: ''
-        });
-    }
+class GetAddresses extends React.Component {
 
     originAddressSelected(place) {
         const addressOrigin = place?.formatted_address;
@@ -41,8 +29,7 @@ class GetAutocompletes extends React.Component {
         if (!addressOrigin) {
             // find a way to change placeholder
         } else {
-            this.setState({ originAddress: addressOrigin });
-            addresses.origin = addressOrigin;
+            this.props.updateOrigin(addressOrigin);
         }
     }
 
@@ -52,8 +39,7 @@ class GetAutocompletes extends React.Component {
         if (!addressDestination) {
             // find a way to change placeholder
         } else {
-            this.setState({ destinationAddress: addressDestination });
-            addresses.destination = addressDestination;
+            this.props.updateDestination(addressDestination);
         }
     }
 
@@ -77,13 +63,4 @@ class GetAutocompletes extends React.Component {
     }
 }
 
-function GetAddresses() {
-    return (
-        <GetAutocompletes />
-    );
-}
-
 export default GetAddresses;
-export const fetchAddresses = () => {
-    return addresses;
-};
