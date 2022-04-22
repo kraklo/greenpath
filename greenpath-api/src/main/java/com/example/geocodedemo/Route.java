@@ -19,4 +19,7 @@ public class Route
 
     @JsonProperty("emissions")
     public double emissions;
+
+    @JsonProperty("type")
+    public TravelMode type;
 }
