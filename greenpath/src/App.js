@@ -12,7 +12,7 @@ function App() {
             </div>
             <GetAddresses />
             <GetRoutes />
-            <GetMap/>
+            <GetMap />
         </div>
     );
 }

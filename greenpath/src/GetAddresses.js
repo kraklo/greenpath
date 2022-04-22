@@ -21,6 +21,7 @@ function AutocompleteField(props) {
             apiKey={API_KEY}
             onPlaceSelected={(place) => props.addressSelected(place)}
             options={options}
+            placeholder={props.placeholder}
         />
     );
 }
@@ -60,10 +61,16 @@ class GetAutocompletes extends React.Component {
         return (
             <>
                 <div className='input_wrapper'>
-                    <AutocompleteField addressSelected={(place) => this.originAddressSelected(place)} />
+                    <AutocompleteField
+                        addressSelected={(place) => this.originAddressSelected(place)}
+                        placeholder='Enter an origin'
+                    />
                 </div>
                 <div className='input_wrapper'>
-                    <AutocompleteField addressSelected={(place) => this.destinationAddressSelected(place)} />
+                    <AutocompleteField
+                        addressSelected={(place) => this.destinationAddressSelected(place)}
+                        placeholder='Enter a destination'
+                    />
                 </div>
             </>
         );
