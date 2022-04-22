@@ -1,4 +1,5 @@
 let map;
+let storedDirections;
 
 function initMap() {
     const directionsService = new google.maps.DirectionsService();
@@ -15,7 +16,11 @@ function initMap() {
         }
     }, function(response, status) {
         if (status === 'OK') {
-            directionsRenderer.setDirections(response);
+            console.log("First Direction");
+            storedDirections = response;
+            console.log(storedDirections);
+            console.log("ready!");
+            // directionsRenderer.setDirections(response);
         }
     });
 
@@ -29,36 +34,46 @@ function initMap() {
     directionsRenderer.setPanel(document.getElementById('directionsPanel'));
 
     const onChangeHandler = function () {
-        tryProcessMap(directionsService, directionsRenderer);
+        tryProcessMap(0, directionsService, directionsRenderer, map);
+    };
+    const onChangeHandlerTwo = function () {
+        tryProcessMap(1, directionsService, directionsRenderer, map);
     };
 
     document.getElementById("click").addEventListener("click", onChangeHandler);
+    document.getElementById("click-two").addEventListener("click", onChangeHandlerTwo);
 }
 
-function tryProcessMap(directionsService, directionsRenderer) {
+function tryProcessMap(index, directionsService, directionsRenderer, map) {
     var addressDestination = "ArtsWestMelbourne";
     var addressOrigin = "8SutherlandStreetMelbourne";
     var url = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
     fetch(url).then(function(response) {
         return response.json();
     }).then(function(data) {
+        console.log("Original Back-end Data")
         console.log(data);
-        processMap(data, 0, directionsService, directionsRenderer);
+        console.log("Stored Directions 1");
+        console.log(storedDirections.routes[0].legs[0].steps.length);
+        processMap(data, index, directionsService, directionsRenderer, map);
     });
     //     .catch(function() {
     //     console.log("Booo");
     // });
 }
 
-function processMap(data, index, directionsService, directionsRenderer)
+async function processMap(data, index, directionsService, directionsRenderer, map)
 {
     // var directions = new Directions();
     // directions.routes = [];
     // directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[index].bounds.northeast.lat, data.routes[index].bounds.northwest.lng);
-    let directions = directionsRenderer.getDirections();
+    console.log("Stored Directions 2");
+    console.log(storedDirections.routes[0].legs[0].steps.length);
+    let directions = Object.assign({}, storedDirections)
     if(directions === undefined)
     {
-        console.log("test is undefined");
+        console.log("directions is undefined");
+        return;
     }
 
     directions.geocoded_waypoints = data.geocoded_waypoints;
@@ -100,8 +115,20 @@ function processMap(data, index, directionsService, directionsRenderer)
         }
     }
 
+    console.log("Final Directions");
     console.log(directions);
+    console.log("Stored Directions 3");
+    console.log(storedDirections.routes[0].legs[0].steps.length);
     directionsRenderer.setDirections(directions);
+
+    await sleep(500);
+
+    var bounds = new google.maps.LatLngBounds();
+    var northeastBound = directions.routes[0].bounds.northeast;
+    var southwestBound = directions.routes[0].bounds.southwest;
+    bounds.extend(northeastBound);
+    bounds.extend(southwestBound);
+    map.fitBounds(bounds);
 
     // directionsService.route(
     //     {
@@ -138,6 +165,10 @@ function processMap(data, index, directionsService, directionsRenderer)
     //     else
     //         console.log("fuck");
     // });
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 window.initMap = initMap;
