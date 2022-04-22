@@ -29,37 +29,38 @@ class RouteRenderer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      routes: Array(sampleApiReturn.length).fill(null),
+      routes: {},
       error: null,
-      postId: null,
     };
   }
 
-  fetchFromApi(addressOrigin, addressDestination) {
+  async fetchFromApi(addressOrigin, addressDestination) {
     const fetchAddress = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
 
-    fetch(fetchAddress)
-      .then(response => response.json())
-      .then(data => console.log(data));
+    const response = await fetch(fetchAddress);
+    console.log(response);
+    const routes = await response.json();
+    return routes;
   }
 
-  sendAddresses() {
+  async sendAddresses() {
     this.setState({ error: null });
     const addresses = fetchAddresses();
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
-      this.fetchFromApi(addresses.origin, addresses.destination);
+      const routes = await this.fetchFromApi(addresses.origin, addresses.destination);
+      this.setState({ routes: routes });
+      return true;
     } else {
       this.setState({ error: 'Two valid addresses not input' });
+      return false;
     }
   }
 
-  getAllRoutes() {
-    this.sendAddresses();
-    if (!this.state.error) {
-      const routes = this.state.routes.slice();
-      sampleApiReturn.forEach(route => routes[route.rank] = route);
-      this.setState({ routes: routes });
+  async getAllRoutes() {
+    const sent = await this.sendAddresses();
+    if (sent) {
+      console.log(this.state.routes);
     }
   }
 
@@ -73,9 +74,6 @@ class RouteRenderer extends React.Component {
         <span style={{ color: 'red' }}> {this.state.error}</span>
       );
     }
-    const routes = [];
-    this.state.routes.forEach(route => routes.push(this.renderRoute(route)));
-    return routes;
   }
 
   renderRouteGetter() {
