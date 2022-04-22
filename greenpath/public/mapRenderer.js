@@ -88,6 +88,8 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
     // directions.routes[0].overview_path.forEach(processPath);
 
     let newPath = google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points);
+    console.log("Polyline Points")
+    console.log(data.routes[index].overview_polyline.points);
     console.log(newPath.length);
     directions.routes[0].overview_path.length = newPath.length;
     newPath.forEach(processPath)
@@ -134,48 +136,21 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
 
     await sleep(500);
 
+    var poly = new google.maps.Polyline({
+        strokeColor: '#5CC600',
+        strokeOpacity: 1,
+        strokeWeight: 5,
+        map: map,
+        geodesic: true,
+        path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
+    });
+
     var bounds = new google.maps.LatLngBounds();
     var northeastBound = directions.routes[0].bounds.northeast;
     var southwestBound = directions.routes[0].bounds.southwest;
     bounds.extend(northeastBound);
     bounds.extend(southwestBound);
     map.fitBounds(bounds);
-
-    // directionsService.route(
-    //     {
-    //     origin: 'Chicago, IL',
-    //     destination: 'Los Angeles, CA',
-    //     travelMode: 'DRIVING',
-    //     drivingOptions: {
-    //         departureTime: new Date(Date.now()),  // for the time N milliseconds from now.
-    //         trafficModel: 'optimistic'
-    //     }
-    // }, function(response, status) {
-    //     if (status === 'OK') {
-    //         data.routes.forEach(processRoute);
-    //         function processRoute(item, index, arr)
-    //         {
-    //             console.log("Item");
-    //             console.log(item);
-    //             console.log(response.routes[index] === undefined);
-    //
-    //             console.log(item.bounds.northeast.lat);
-    //             console.log(item.bounds.northeast.lng)
-    //             console.log(item.bounds.southwest.lat);
-    //             console.log(item.bounds.southwest.lng)
-    //
-    //             response.routes[index].bounds.northeast = new google.maps.LatLng(item.bounds.northeast.lat, item.bounds.northeast.lng);
-    //             response.routes[index].bounds.southwest = new google.maps.LatLng(item.bounds.southwest.lat, item.bounds.southwest.lng);
-    //
-    //             console.log("New Northeast " +response.routes[index].bounds.northeast);
-    //             console.log("New Southwest " +response.routes[index].bounds.southwest);
-    //         }
-    //         directionsRenderer.setDirections(response);
-    //         console.log(response);
-    //     }
-    //     else
-    //         console.log("fuck");
-    // });
 }
 
 function sleep(ms) {
