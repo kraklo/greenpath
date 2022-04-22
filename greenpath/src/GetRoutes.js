@@ -59,7 +59,7 @@ class RouteRenderer extends React.Component {
     const addresses = getAddresses();
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
-      this.fetchFromApi(addresses.addressOrigin, addresses.addressDestination);
+      this.fetchFromApi(addresses.origin, addresses.destination);
     } else {
       this.setState({ error: 'Two valid addresses not input' });
     }
