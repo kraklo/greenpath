@@ -26,10 +26,25 @@ function RouteGetter(props) {
 function Route(props) {
   if (props.route) {
     console.log(props.route);
+    const today = new Date();
+    const depart = today.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+    const durationVal = props.route.legs[0].duration.value;
+    const durationText = props.route.legs[0].duration.text;
+    const arrival = new Date(today.getTime() + durationVal * 1000)
+    const arrive = arrival.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+    const emissions = props.route.emissions.value;
     return (
       <div className='route_option'>
+        <span className='arrival_destination_time'>{depart} - {arrive}</span>
+        <span className='duration'>{durationText}</span>
         <img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>
-        <p>Footprint: {props.route.emissions.text}</p>
+        <p>Footprint: {Math.trunc(emissions)} grams</p>
       </div>
     );
   }
