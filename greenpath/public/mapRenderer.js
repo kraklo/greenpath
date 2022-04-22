@@ -40,15 +40,22 @@ function initMap() {
         loadRoutes();
     }
     const onChangeHandler = function () {
-        processMap(storedRoutes, 0);
+        processMap(0);
     };
     const onChangeHandlerTwo = function () {
-        processMap(storedRoutes, 1);
+        processMap(1);
     };
 
     document.getElementById("load").addEventListener("click", onLoadHandler);
     document.getElementById("click").addEventListener("click", onChangeHandler);
     document.getElementById("click-two").addEventListener("click", onChangeHandlerTwo);
+}
+
+function setStoredData(data)
+{
+    storedRoutes = data;
+    console.log("Data has been stored!");
+    console.log(storedRoutes);
 }
 
 function loadRoutes()
@@ -59,8 +66,7 @@ function loadRoutes()
     fetch(url).then(function(response) {
         return response.json();
     }).then(function(data) {
-        storedRoutes = data;
-        console.log("Data has been stored!");
+        setStoredData(data);
     });
 }
 
@@ -82,14 +88,16 @@ function tryProcessMap(index) {
     // });
 }
 
-async function processMap(data, index)
+async function processMap(index)
 {
     // var directions = new Directions();
     // directions.routes = [];
     // directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[index].bounds.northeast.lat, data.routes[index].bounds.northwest.lng);
     console.log("Stored Directions 2");
     console.log(storedDirections.routes[0].legs[0].steps.length);
-    let directions = Object.assign({}, storedDirections)
+    let directions = storedDirections;
+    let data = storedRoutes;
+    console.log(data);
     if(directions === undefined)
     {
         console.log("directions is undefined");
