@@ -20,6 +20,9 @@ public class Route
     @JsonProperty("overview_polyline")
     public DirectionsPolyline overview_polyline;
 
+    @JsonProperty("overview_path")
+    public Location[] overviewPath;
+
     @JsonProperty("summary")
     public String summary;
 
@@ -30,7 +33,6 @@ public class Route
     public String[] waypoint_order;
     @JsonProperty("emissions")
     public TextValue emissions;
-
     @JsonProperty("type")
     public TravelMode type;
 }

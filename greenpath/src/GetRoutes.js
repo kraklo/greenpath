@@ -1,17 +1,18 @@
 import React from 'react';
 import './GetRoutes.css';
-import { fetchAddresses } from './GetAddresses';
-// import DRIVING from './images/DRIVING.svg';
-// import WALKING from './images/WALKING.svg';
-// import TRANSIT from './images/TRANSIT.svg';
-// import BICYCLING from './images/BICYCLING.svg';
 
-// const icons = {
-//   DRIVING,
-//   WALKING,
-//   TRANSIT,
-//   BICYCLING
-// };
+import DRIVING from './images/DRIVING.svg';
+import WALKING from './images/WALKING.svg';
+import TRANSIT from './images/TRANSIT.svg';
+import BICYCLING from './images/BICYCLING.svg';
+
+const icons = {
+  DRIVING,
+  WALKING,
+  TRANSIT,
+  BICYCLING
+};
+
 
 function RouteGetter(props) {
   return (
@@ -45,7 +46,7 @@ function Route(props) {
         <div className='duration_emissions'>
           <span className='duration'>{durationText} / <span className='emissions'>{Math.trunc(emissions)} grams</span></span>
         </div>
-        {/*<img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>*/}
+        <img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>
 
       </div>
     );
@@ -54,38 +55,29 @@ function Route(props) {
   return null;
 }
 
-class RouteRenderer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      routes: {},
-      error: null,
-      loading: false,
-    };
-  }
-
+class GetRoutes extends React.Component {
   async fetchFromApi(addressOrigin, addressDestination) {
     const fetchAddress = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
-    this.setState({ loading: true });
+    this.props.onLoading(true);
 
     const response = await fetch(fetchAddress);
     console.log(response);
     const routes = await response.json();
-    this.setState({
-      routes: routes,
-      loading: false
-    });
+    this.props.onRoutesGet(routes, false);
   }
 
   async sendAddresses() {
-    this.setState({ error: null });
-    const addresses = fetchAddresses();
+    this.props.changeError(null);
+    const addresses = {
+      origin: this.props.originAddress,
+      destination: this.props.destinationAddress
+    };
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
       await this.fetchFromApi(addresses.origin, addresses.destination);
       return true;
     } else {
-      this.setState({ error: 'Two valid addresses not input' });
+      this.props.changeError('Two valid addresses not input');
       return false;
     }
   }
@@ -93,7 +85,10 @@ class RouteRenderer extends React.Component {
   async getAllRoutes() {
     const sent = await this.sendAddresses();
     if (sent) {
-      console.log(this.state.routes);
+      console.log(this.props.routes);
+      if (this.props.page !== 'ShowRoutes') {
+        this.props.changePage('ShowRoutes');
+      }
     }
   }
 
@@ -102,22 +97,22 @@ class RouteRenderer extends React.Component {
   }
 
   renderAllRoutes() {
-    if (this.state.error) {
+    if (this.props.error) {
       return (
-        <span style={{ color: 'red' }}> {this.state.error}</span>
+        <span style={{ color: 'red' }}> {this.props.error}</span>
       );
     }
 
-    if (this.state.loading) {
+    if (this.props.loading) {
       return (
         <span>Loading...</span>
       );
-    } else if (Object.keys(this.state.routes).length !== 0) {
-      const routeItems = this.state.routes.routes.map(route => {
+    } else if (Object.keys(this.props.routes).length !== 0) {
+      const routeItems = this.props.routes.routes.map(route => {
         return this.renderRoute(route);
       });
 
-      console.log(this.state.routes);
+      console.log(this.props.routes);
       console.log(routeItems);
       return routeItems;
     }
@@ -128,21 +123,21 @@ class RouteRenderer extends React.Component {
   }
 
   render() {
+    const currentPage = this.props.page;
+    if (currentPage === 'GetRoutes') {
+      return (
+        <>
+          {this.renderRouteGetter()}
+        </>
+      );
+    }
+
     return (
       <>
-        {this.renderRouteGetter()}
         {this.renderAllRoutes()}
       </>
     );
   }
-}
-
-function GetRoutes() {
-  return (
-    <div className="GetRoutes">
-      <RouteRenderer />
-    </div>
-  );
 }
 
 export default GetRoutes;
