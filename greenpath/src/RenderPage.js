@@ -125,6 +125,8 @@ class GetPage extends React.Component {
                     <BackButton onClick={() => this.previousPage()} />
                     <div className="title_wrapper">
                         <span className="start_trip">Directions</span>
+                    </div>
+                    <div className='GetRoutes'>
                         <GetRoutes
                             onLoading={(loading) => this.onLoading(loading)}
                             onRoutesGet={(routes, loading) => this.onRoutesGet(routes, loading)}

@@ -15,7 +15,7 @@ const icons = {
 
 function Step(props) {
   return (
-    <div className='route_option'>
+    <div className='step_option'>
       <span className='step' dangerouslySetInnerHTML={{ __html: props.instruction }}></span>
     </div>
   );

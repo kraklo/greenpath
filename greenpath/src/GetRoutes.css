@@ -67,6 +67,7 @@
     height: 100px;
     width: calc(100% - 30px);
     position: relative;
+    top: -10px;
 
     background: rgba(255, 255, 255, 0.77);
     /* Box Shadows/Small */
@@ -112,4 +113,19 @@
     position: absolute;
     top: 15px;
     left: 15px;
+}
+
+.step_option {
+    padding: 15px;
+    margin: 10px;
+    height: auto;
+    width: calc(100% - 30px);
+    position: relative;
+    top: -10px;
+
+    background: rgba(255, 255, 255, 0.77);
+    /* Box Shadows/Small */
+
+    box-shadow: 0px 11px 20px rgba(5, 16, 55, 0.1);
+    border-radius: 6px;
 }
