@@ -28,5 +28,5 @@ public class Step
 
     //Added properties
     @JsonProperty("emissions_step")
-    public double emissions;
+    public TextValue emissions;
 }
