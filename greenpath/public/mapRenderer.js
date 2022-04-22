@@ -160,9 +160,9 @@ async function processMap(index)
             return;
 
         paths[i] = new google.maps.Polyline({
-            strokeColor: '#BBBDBF',
+            strokeColor: '#8D8D8D',
             strokeOpacity: 1,
-            strokeWeight: 3,
+            strokeWeight: 5,
             map: map,
             geodesic: true,
             path: google.maps.geometry.encoding.decodePath(data.routes[i].overview_polyline.points)
@@ -174,7 +174,7 @@ async function processMap(index)
     paths[index] = new google.maps.Polyline({
         strokeColor: '#5CC600',
         strokeOpacity: 1,
-        strokeWeight: 5,
+        strokeWeight: 8,
         map: map,
         geodesic: true,
         path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
