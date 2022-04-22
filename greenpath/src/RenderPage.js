@@ -1,6 +1,13 @@
 import React from 'react';
 import GetAddresses from './GetAddresses';
 import GetRoutes from './GetRoutes';
+import './RenderPage.css';
+
+function BackButton(props) {
+    return (
+        <button className='back_button' onClick={props.onClick}>&lt;</button>
+    );
+}
 
 class GetPage extends React.Component {
     constructor(props) {
@@ -42,6 +49,10 @@ class GetPage extends React.Component {
         this.setState({ page: page });
     }
 
+    previousPage() {
+        this.setState({ page: 'GetRoutes' });
+    }
+
     render() {
         const currentPage = this.state.page;
         console.log(currentPage);
@@ -74,6 +85,7 @@ class GetPage extends React.Component {
         } else if (currentPage === 'ShowRoutes') {
             return (
                 <div className='search_wrapper'>
+                    <BackButton onClick={() => this.previousPage()} />
                     <div className="title_wrapper">
                         <span className="start_trip">Routes</span>
                     </div>
