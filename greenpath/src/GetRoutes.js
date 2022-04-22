@@ -66,7 +66,23 @@ class GetRoutes extends React.Component {
     this.props.onRoutesGet(routes, false);
   }
 
-  showSteps() {
+  showWalk() {
+    window['processMap'](0);
+    this.props.changePage('ShowSteps');
+  }
+
+  showBike() {
+    window['processMap'](1);
+    this.props.changePage('ShowSteps');
+  }
+
+  showTransit() {
+    window['processMap'](2);
+    this.props.changePage('ShowSteps');
+  }
+
+  showDrive() {
+    window['processMap'](3);
     this.props.changePage('ShowSteps');
   }
 
@@ -90,16 +106,32 @@ class GetRoutes extends React.Component {
     const sent = await this.sendAddresses();
     if (sent) {
       console.log(this.props.routes);
+      window['setStoredData'](this.props.routes);
       if (this.props.page !== 'ShowRoutes') {
         this.props.changePage('ShowRoutes');
       }
     }
   }
 
-  renderRoute(route) {
+  renderRoute(route, i) {
+    let callback;
+    switch (i) {
+      case 0:
+        callback = () => this.showWalk();
+        break;
+      case 1:
+        callback = () => this.showBike();
+        break;
+      case 2:
+        callback = () => this.showTransit();
+        break;
+      case 3:
+        callback = () => this.showDrive();
+        break;
+    }
     return <Route
       route={route}
-      onClick={() => this.showSteps()}
+      onClick={callback}
     />;
   }
 
@@ -115,8 +147,11 @@ class GetRoutes extends React.Component {
         <span>Loading...</span>
       );
     } else if (Object.keys(this.props.routes).length !== 0) {
-      const routeItems = this.props.routes.routes.map(route => {
-        return this.renderRoute(route);
+      const routeItems = [];
+      let i = 0;
+      this.props.routes.routes.forEach(route => {
+        routeItems.push(this.renderRoute(route, i));
+        i++;
       });
 
       console.log(this.props.routes);
