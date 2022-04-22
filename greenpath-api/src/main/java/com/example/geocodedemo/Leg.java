@@ -9,18 +9,6 @@ import java.util.List;
 
 public class Leg
 {
-    @JsonProperty("arrival_time")
-    public TravelTime arrivalTime;
-
-    @JsonProperty("departure_time")
-    public TravelTime departureTime;
-
-    @JsonProperty("distance")
-    public TextValue distance;
-
-    @JsonProperty("duration")
-    public TextValue duration;
-
     @JsonProperty("end_address")
     public String endAddress;
 
@@ -32,9 +20,20 @@ public class Leg
 
     @JsonProperty("start_location")
     public Location startLocation;
-
     @JsonProperty("steps")
     public List<Step> stepList;
+
+    @JsonProperty("arrival_time")
+    public TravelTime arrivalTime;
+
+    @JsonProperty("departure_time")
+    public TravelTime departureTime;
+
+    @JsonProperty("distance")
+    public TextValue distance;
+
+    @JsonProperty("duration")
+    public TextValue duration;
 
     @JsonProperty("emissions_leg")
     public TextValue emissions_leg;

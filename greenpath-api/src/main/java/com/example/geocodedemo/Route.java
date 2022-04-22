@@ -17,6 +17,17 @@ public class Route
     @JsonProperty("legs")
     public List<Leg> legs;
 
+    @JsonProperty("overview_polyline")
+    public DirectionsPolyline overview_polyline;
+
+    @JsonProperty("summary")
+    public String summary;
+
+    @JsonProperty("warnings")
+    public String[] warnings;
+
+    @JsonProperty("waypoint_order")
+    public String[] waypoint_order;
     @JsonProperty("emissions")
     public TextValue emissions;
 
