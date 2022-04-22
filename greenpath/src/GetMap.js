@@ -17,16 +17,17 @@ const center = {
 
 export default function GetMap() {
     return (
-        <div>test</div>
-        // <LoadScript
-        //     id="script-loader"
-        //     googleMapsApiKey={GOOGLE_API_KEY}
-        //     language="en"
-        //     region="EN"
-        //     version="weekly"
-        // >
-        //     <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom = {10}></GoogleMap>
-        //     {/*<Map />*/}
-        // </LoadScript>
+        // <div>test</div>
+        <LoadScript
+            id="script-loader"
+            googleMapsApiKey={GOOGLE_API_KEY}
+            language="en"
+            region="EN"
+            version="weekly"
+            libraries={libraries}
+        >
+            <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom = {10}></GoogleMap>
+            {/*<Map />*/}
+        </LoadScript>
     )
 }
