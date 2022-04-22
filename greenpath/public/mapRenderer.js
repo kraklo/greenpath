@@ -224,25 +224,13 @@ async function processMap(index)
         path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
     });
     paths[index].setMap(map);
-    // if(path !== undefined)
-    //     removeLine();
-    // path = new google.maps.Polyline({
-    //     strokeColor: '#5CC600',
-    //     strokeOpacity: 1,
-    //     strokeWeight: 5,
-    //     map: map,
-    //     geodesic: true,
-    //     path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
-    // });
-    // addLine();
-
-
-    var bounds = new google.maps.LatLngBounds();
-    var northeastBound = new google.maps.LatLng(data.routes[index].bounds.northeast.lat + Y_OFFSET, data.routes[index].bounds.northeast.lng - X_OFFSET);
-    var southwestBound = data.routes[index].bounds.southwest;
-    bounds.extend(northeastBound);
-    bounds.extend(southwestBound);
-    map.fitBounds(bounds);
+    
+    // var bounds = new google.maps.LatLngBounds();
+    // var northeastBound = new google.maps.LatLng(data.routes[index].bounds.northeast.lat + Y_OFFSET, data.routes[index].bounds.northeast.lng - X_OFFSET);
+    // var southwestBound = data.routes[index].bounds.southwest;
+    // bounds.extend(northeastBound);
+    // bounds.extend(southwestBound);
+    // map.fitBounds(bounds);
 }
 
 function clearPaths()
