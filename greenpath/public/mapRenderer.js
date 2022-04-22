@@ -5,6 +5,8 @@ let paths = [];
 let storedRoutes;
 let directionsService;
 let directionsRenderer;
+const Y_OFFSET = 0.003;
+const X_OFFSET = 0.010;
 
 function initMap() {
     directionsService = new google.maps.DirectionsService();
@@ -162,8 +164,8 @@ async function initRoutes()
     if(routesLength > 0)
     {
         var bounds = new google.maps.LatLngBounds();
-        var northeastBound = directions.routes[0].bounds.northeast;
-        var southwestBound = directions.routes[0].bounds.southwest;
+        var northeastBound = new google.maps.LatLng(data.routes[0].bounds.northeast.lat + Y_OFFSET, data.routes[0].bounds.northeast.lng - X_OFFSET);
+        var southwestBound = data.routes[0].bounds.southwest;
         bounds.extend(northeastBound);
         bounds.extend(southwestBound);
         map.fitBounds(bounds);
@@ -190,57 +192,6 @@ async function processMap(index)
 
     let directions = storedDirections;
     let data = storedRoutes;
-
-    directions.geocoded_waypoints = data.geocoded_waypoints;
-
-    directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[index].bounds.northeast.lat, data.routes[index].bounds.northeast.lng);
-    directions.routes[0].bounds.southwest = new google.maps.LatLng(data.routes[index].bounds.southwest.lat, data.routes[index].bounds.southwest.lng);
-
-    directions.routes[0].copyrights = data.routes[index].copyrights;
-
-    // directions.routes[0].overview_path.forEach(processPath);
-
-    let newPath = google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points);
-    directions.routes[0].overview_path = Object.assign({}, storedDirections.routes[0].overview_path);
-    directions.routes[0].overview_path.length = newPath.length;
-    newPath.forEach(processPath)
-    function processPath(path, i, arr)
-    {
-        directions.routes[0].overview_path[i] = path;
-    }
-
-    directions.routes[0].overview_polyline = data.routes[index].overview_polyline.points;
-
-    data.routes[index].legs.forEach(processLeg);
-
-    function processLeg(leg, i, arr)
-    {
-        directions.routes[0].legs[i].arrival_time = leg.arrival_time;
-        directions.routes[0].legs[i].departure_time = leg.departure_time;
-        directions.routes[0].legs[i].distance = leg.distance;
-        directions.routes[0].legs[i].duration = leg.duration;
-        directions.routes[0].legs[i].end_address = leg.end_address;
-        directions.routes[0].legs[i].end_location = new google.maps.LatLng(leg.end_location.lat, leg.end_location.lng);
-        directions.routes[0].legs[i].start_address = leg.start_address;
-        directions.routes[0].legs[i].start_location = new google.maps.LatLng(leg.start_location.lat, leg.start_location.lng);
-        
-        leg.steps.forEach(processStep)
-        directions.routes[0].legs[i].steps = Object.assign({}, storedDirections.routes[0].legs[i].steps);
-        directions.routes[0].legs[i].steps.length = Object.assign({}, storedDirections.routes[0].overview_path);
-        function processStep(step, j, arr)
-        {
-            directions.routes[0].legs[i].steps[j].distance = step.distance;
-            directions.routes[0].legs[i].steps[j].duration = step.duration;
-            directions.routes[0].legs[i].steps[j].end_location = new google.maps.LatLng(step.end_location.lat, step.end_location.lng);
-            directions.routes[0].legs[i].steps[j].html_instructions = step.html_instructions;
-            directions.routes[0].legs[i].steps[j].start_location = new google.maps.LatLng(step.start_location.lat, step.start_location.lng);
-            directions.routes[0].legs[i].steps[j].travel_mode = step.travel_mode;
-        }
-    }
-
-    directionsRenderer.setDirections(directions);
-
-    await sleep(100);
 
     paths.length = data.routes.length;
     data.routes.forEach(processPolyline);
@@ -285,20 +236,21 @@ async function processMap(index)
     // });
     // addLine();
 
+
     var bounds = new google.maps.LatLngBounds();
-    var northeastBound = directions.routes[0].bounds.northeast;
-    var southwestBound = directions.routes[0].bounds.southwest;
+    var northeastBound = new google.maps.LatLng(data.routes[index].bounds.northeast.lat + Y_OFFSET, data.routes[index].bounds.northeast.lng - X_OFFSET);
+    var southwestBound = data.routes[index].bounds.southwest;
     bounds.extend(northeastBound);
     bounds.extend(southwestBound);
     map.fitBounds(bounds);
 }
 
-function addLine() {
-    path.setMap(map);
-}
-
-function removeLine() {
-    path.setMap(null);
+function clearPaths()
+{
+    for(let i=0; i<paths.length; ++i)
+    {
+        paths[i].setMap(null);
+    }
 }
 
 function sleep(ms) {
