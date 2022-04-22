@@ -1,5 +1,6 @@
 import React from 'react';
 import './GetRoutes.css';
+import { fetchAddresses } from './GetAddresses';
 
 const sampleApiReturn = [
   {
@@ -62,8 +63,7 @@ class RouteRenderer extends React.Component {
 
   sendAddresses() {
     this.setState({ error: null });
-    const getAddresses = () => window['getAddresses']();
-    const addresses = getAddresses();
+    const addresses = fetchAddresses();
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
       this.fetchFromApi(addresses.origin, addresses.destination);
