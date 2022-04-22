@@ -12,17 +12,17 @@
     line-height: 130.7%;
     /* or 52px */
 
-
     color: #000000;
 }
 
 .title_wrapper {
     position: static;
-    width: 25px;
-    height: 28px;
+    width: auto;
+    height: auto;
     left: 470px;
-    top: 319px;
+    top: 330px;
     padding: 20px;
+    margin: 13px;
 }
 
 .search_wrapper {
