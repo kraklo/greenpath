@@ -50,7 +50,11 @@ class GetPage extends React.Component {
     }
 
     previousPage() {
-        this.setState({ page: 'GetRoutes' });
+        if (this.state.page === 'ShowSteps') {
+            this.setState({ page: 'ShowRoutes' });
+        } else {
+            this.setState({ page: 'GetRoutes' });
+        }
     }
 
     render() {
@@ -102,6 +106,15 @@ class GetPage extends React.Component {
                             destinationAddress={this.state.destinationAddress}
                             changePage={(page) => this.changePage(page)}
                         />
+                    </div>
+                </div>
+            );
+        } else if (currentPage === 'ShowSteps') {
+            return (
+                <div className='search_wrapper'>
+                    <BackButton onClick={() => this.previousPage()} />
+                    <div className="title_wrapper">
+                        <span className="start_trip">Directions</span>
                     </div>
                 </div>
             );
