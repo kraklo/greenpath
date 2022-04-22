@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import GetRoutes from './GetRoutes';
 import reportWebVitals from './reportWebVitals';
+import GetAddresses from './GetAddresses';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <GetAddresses />
     <GetRoutes />
   </React.StrictMode>
 );
