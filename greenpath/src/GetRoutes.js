@@ -14,10 +14,11 @@ function RouteGetter(props) {
 
 function Route(props) {
   if (props.route) {
+    console.log(props.route);
     return (
-      <div>
+      <div className='route_option'>
         <h3>Method: {props.route.method}</h3>
-        <p>Footprint: {props.route.footprint}</p>
+        <p>Footprint: {props.route.footprint.text}</p>
       </div>
     );
   }
