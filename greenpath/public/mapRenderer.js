@@ -1,5 +1,6 @@
 let map;
 let storedDirections;
+let path;
 
 function initMap() {
     const directionsService = new google.maps.DirectionsService();
@@ -16,20 +17,22 @@ function initMap() {
         }
     }, function(response, status) {
         if (status === 'OK') {
-            console.log("First Direction");
+            console.log("Before");
             storedDirections = response;
-            console.log(storedDirections);
+            console.log(response);
+            console.log("After");
+            console.log(response);
             console.log("ready!");
-            let newPath = google.maps.geometry.encoding.decodePath(storedDirections.routes[0].overview_polyline);
-            console.log(newPath.length);
             // directionsRenderer.setDirections(response);
         }
     });
 
     var melbourne = new google.maps.LatLng( -37.840935, 144.946457);
     var mapOptions = {
-        zoom:10,
-        center: melbourne
+        zoom:12,
+        center: melbourne,
+        streetViewControl: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     var map = new google.maps.Map(document.getElementById('map'), mapOptions);
     directionsRenderer.setMap(map);
@@ -91,6 +94,7 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
     console.log("Polyline Points")
     console.log(data.routes[index].overview_polyline.points);
     console.log(newPath.length);
+    directions.routes[0].overview_path = Object.assign({}, storedDirections.routes[0].overview_path);
     directions.routes[0].overview_path.length = newPath.length;
     newPath.forEach(processPath)
     function processPath(path, i, arr)
@@ -114,8 +118,8 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
         directions.routes[0].legs[i].start_location = new google.maps.LatLng(leg.start_location.lat, leg.start_location.lng);
         
         leg.steps.forEach(processStep)
-
-        directions.routes[0].legs[i].steps.length = leg.steps.length;
+        directions.routes[0].legs[i].steps = Object.assign({}, storedDirections.routes[0].legs[i].steps);
+        directions.routes[0].legs[i].steps.length = Object.assign({}, storedDirections.routes[0].overview_path);
         function processStep(step, j, arr)
         {
             directions.routes[0].legs[i].steps[j].distance = step.distance;
@@ -136,7 +140,12 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
 
     await sleep(200);
 
-    var poly = new google.maps.Polyline({
+    console.log("Path");
+    console.log(path === undefined);
+
+    if(path !== undefined)
+        removeLine();
+    path = new google.maps.Polyline({
         strokeColor: '#5CC600',
         strokeOpacity: 1,
         strokeWeight: 5,
@@ -144,6 +153,7 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
         geodesic: true,
         path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
     });
+    addLine(map);
 
     var bounds = new google.maps.LatLngBounds();
     var northeastBound = directions.routes[0].bounds.northeast;
@@ -151,6 +161,14 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
     bounds.extend(northeastBound);
     bounds.extend(southwestBound);
     map.fitBounds(bounds);
+}
+
+function addLine(map) {
+    path.setMap(map);
+}
+
+function removeLine() {
+    path.setMap(null);
 }
 
 function sleep(ms) {
