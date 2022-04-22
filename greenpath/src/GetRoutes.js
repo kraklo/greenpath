@@ -1,4 +1,5 @@
 import React from 'react';
+import './GetRoutes.css';
 
 const sampleApiReturn = [
   {
@@ -20,7 +21,11 @@ const sampleApiReturn = [
 
 function RouteGetter(props) {
   return (
-    <button onClick={props.onClick}>Get Routes</button>
+    <div className='button_wrapper'>
+      <button className="go_button" onClick={props.onClick}>
+        <span className="button_text">GO</span>
+      </button>
+    </div>
   );
 }
 
@@ -33,6 +38,8 @@ function Route(props) {
       </div>
     );
   }
+
+  return null;
 }
 
 class RouteRenderer extends React.Component {

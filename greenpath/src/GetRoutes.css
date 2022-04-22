@@ -1,0 +1,65 @@
+.go_button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 30.0972px 38.3056px 32.8333px;
+
+    position: static;
+    width: 167px;
+    height: 43px;
+    left: 0px;
+    top: 0px;
+
+    background: #81B5A9;
+    border-radius: 16.4167px;
+    border-width: 0px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 32.8333px;
+}
+
+.button_wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-left: 55px;
+
+    position: static;
+    width: 167px;
+    height: 43px;
+    left: 203px;
+    top: 429px;
+}
+
+.button_text {
+    position: static;
+    width: 30px;
+    height: 28px;
+    left: 68.5px;
+    top: 6.13px;
+
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 28px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    color: rgba(255, 255, 255, 0.97);
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 27.3611px;
+}

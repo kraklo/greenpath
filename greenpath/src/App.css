@@ -1,0 +1,26 @@
+.start_trip {
+    position: absolute;
+    width: 167px;
+    height: 52px;
+    left: 33%;
+    top: 20px;
+
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 130.7%;
+    /* or 52px */
+
+
+    color: #000000;
+}
+
+.title_wrapper {
+    position: static;
+    width: 25px;
+    height: 28px;
+    left: 470px;
+    top: 319px;
+    padding: 20px;
+}
