@@ -56,7 +56,7 @@ function setStoredData(data)
 {
     storedRoutes = data;
     console.log("Data has been stored!");
-    console.log(storedRoutes);
+    initRoutes();
 }
 
 function loadRoutes()
@@ -71,21 +71,125 @@ function loadRoutes()
     });
 }
 
-async function processMap(index)
+async function initRoutes()
 {
-    // var directions = new Directions();
-    // directions.routes = [];
-    // directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[index].bounds.northeast.lat, data.routes[index].bounds.northwest.lng);
-    console.log("Stored Directions 2");
-    console.log(storedDirections.routes[0].legs[0].steps.length);
-    let directions = storedDirections;
-    let data = storedRoutes;
-    console.log(data);
-    if(directions === undefined)
+    if(storedRoutes === undefined || storedRoutes === null)
     {
-        console.log("directions is undefined");
+        console.log("Stored roots is undefined or null!");
         return;
     }
+    let routesLength = storedRoutes.routes.length;
+    if(routesLength < 0)
+    {
+        console.log("There are no routes!");
+        return;
+    }
+
+    let directions = storedDirections;
+    let data = storedRoutes;
+
+    directions.geocoded_waypoints = data.geocoded_waypoints;
+
+    directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[0].bounds.northeast.lat, data.routes[0].bounds.northeast.lng);
+    directions.routes[0].bounds.southwest = new google.maps.LatLng(data.routes[0].bounds.southwest.lat, data.routes[0].bounds.southwest.lng);
+
+    directions.routes[0].copyrights = data.routes[0].copyrights;
+
+    // directions.routes[0].overview_path.forEach(processPath);
+
+    let newPath = google.maps.geometry.encoding.decodePath(data.routes[0].overview_polyline.points);
+    directions.routes[0].overview_path = Object.assign({}, storedDirections.routes[0].overview_path);
+    directions.routes[0].overview_path.length = newPath.length;
+    newPath.forEach(processPath)
+    function processPath(path, i, arr)
+    {
+        directions.routes[0].overview_path[i] = path;
+    }
+
+    directions.routes[0].overview_polyline = data.routes[0].overview_polyline.points;
+
+    data.routes[0].legs.forEach(processLeg);
+
+    function processLeg(leg, i, arr)
+    {
+        directions.routes[0].legs[i].arrival_time = leg.arrival_time;
+        directions.routes[0].legs[i].departure_time = leg.departure_time;
+        directions.routes[0].legs[i].distance = leg.distance;
+        directions.routes[0].legs[i].duration = leg.duration;
+        directions.routes[0].legs[i].end_address = leg.end_address;
+        directions.routes[0].legs[i].end_location = new google.maps.LatLng(leg.end_location.lat, leg.end_location.lng);
+        directions.routes[0].legs[i].start_address = leg.start_address;
+        directions.routes[0].legs[i].start_location = new google.maps.LatLng(leg.start_location.lat, leg.start_location.lng);
+
+        leg.steps.forEach(processStep)
+        directions.routes[0].legs[i].steps = Object.assign({}, storedDirections.routes[0].legs[i].steps);
+        directions.routes[0].legs[i].steps.length = Object.assign({}, storedDirections.routes[0].overview_path);
+        function processStep(step, j, arr)
+        {
+            directions.routes[0].legs[i].steps[j].distance = step.distance;
+            directions.routes[0].legs[i].steps[j].duration = step.duration;
+            directions.routes[0].legs[i].steps[j].end_location = new google.maps.LatLng(step.end_location.lat, step.end_location.lng);
+            directions.routes[0].legs[i].steps[j].html_instructions = step.html_instructions;
+            directions.routes[0].legs[i].steps[j].start_location = new google.maps.LatLng(step.start_location.lat, step.start_location.lng);
+            directions.routes[0].legs[i].steps[j].travel_mode = step.travel_mode;
+        }
+    }
+
+    directionsRenderer.setDirections(directions);
+
+    await sleep(100);
+
+    //Resize path to routes length
+    paths.length = routesLength;
+    data.routes.forEach(processPolyline);
+    function processPolyline(route, i, arr)
+    {
+        if(paths[i] !== undefined && paths[i] !== null)
+            paths[i].setMap(null)
+
+        paths[i] = new google.maps.Polyline({
+            strokeColor: '#8D8D8D',
+            strokeOpacity: 1,
+            strokeWeight: 5,
+            map: map,
+            geodesic: true,
+            path: google.maps.geometry.encoding.decodePath(data.routes[i].overview_polyline.points)
+        });
+
+        paths[i].setMap(map);
+    }
+
+    if(routesLength > 0)
+    {
+        var bounds = new google.maps.LatLngBounds();
+        var northeastBound = directions.routes[0].bounds.northeast;
+        var southwestBound = directions.routes[0].bounds.southwest;
+        bounds.extend(northeastBound);
+        bounds.extend(southwestBound);
+        map.fitBounds(bounds);
+    }
+}
+
+async function processMap(index)
+{
+    if(storedRoutes === undefined || storedRoutes === null)
+    {
+        console.log("Stored roots is undefined or null!");
+        return;
+    }
+    if(index > storedRoutes.routes.length)
+    {
+        console.log("Index is too large!");
+        return;
+    }
+    if(index < 0)
+    {
+        console.log("Index is too small!");
+        return;
+    }
+
+    let directions = storedDirections;
+    let data = storedRoutes;
 
     directions.geocoded_waypoints = data.geocoded_waypoints;
 
@@ -97,9 +201,6 @@ async function processMap(index)
     // directions.routes[0].overview_path.forEach(processPath);
 
     let newPath = google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points);
-    console.log("Polyline Points")
-    console.log(data.routes[index].overview_polyline.points);
-    console.log(newPath.length);
     directions.routes[0].overview_path = Object.assign({}, storedDirections.routes[0].overview_path);
     directions.routes[0].overview_path.length = newPath.length;
     newPath.forEach(processPath)
@@ -134,20 +235,12 @@ async function processMap(index)
             directions.routes[0].legs[i].steps[j].html_instructions = step.html_instructions;
             directions.routes[0].legs[i].steps[j].start_location = new google.maps.LatLng(step.start_location.lat, step.start_location.lng);
             directions.routes[0].legs[i].steps[j].travel_mode = step.travel_mode;
-            console.log(directions.routes[0].legs[i].steps[j].travel_mode);
         }
     }
 
-    console.log("Final Directions");
-    console.log(directions);
-    console.log("Stored Directions 3");
-    console.log(storedDirections.routes[0].legs[0].steps.length);
     directionsRenderer.setDirections(directions);
 
     await sleep(100);
-
-    console.log("Path");
-    console.log(path === undefined);
 
     paths.length = data.routes.length;
     data.routes.forEach(processPolyline);
