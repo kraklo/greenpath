@@ -5,7 +5,7 @@
     padding: 0px;
 }
 
-#autocomplete_origin {
+input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -19,32 +19,6 @@
     top: 0px;
 
     background: #FFFFFF;
-
-    box-shadow: 0px 0px 0px 1px #CDD1DC;
-    border-radius: 6px;
-
-    border-width: 0px;
-
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 10px 0px;
-}
-
-#autocomplete_destination {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 11px;
-
-    position: static;
-    width: 323px;
-    height: 40px;
-    left: 0px;
-    top: 0px;
-
 
     box-shadow: 0px 0px 0px 1px #CDD1DC;
     border-radius: 6px;
