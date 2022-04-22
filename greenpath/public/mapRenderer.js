@@ -52,36 +52,49 @@ function tryProcessMap(directionsService, directionsRenderer) {
 
 function processMap(data, index, directionsService, directionsRenderer)
 {
-    let test = directionsRenderer.getDirections();
-    // directionsService.route(
-    //     {
-    //         origin: 'Melbourne',
-    //         destination: 'Sydney',
-    //         travelMode: 'DRIVING',
-    //         drivingOptions: {
-    //             departureTime: new Date(Date.now()),  // for the time N milliseconds from now.
-    //             trafficModel: 'optimistic'
-    //         }
-    //     }, function(response, status) {
-    //         if (status === 'OK') {
-    //             directionsRenderer.setDirections(response);
-    //             directionsService.route(
-    //                 {
-    //                     origin: 'Melbourne',
-    //                     destination: 'Sydney',
-    //                     travelMode: 'DRIVING',
-    //                     drivingOptions: {
-    //                         departureTime: new Date(Date.now()),  // for the time N milliseconds from now.
-    //                         trafficModel: 'optimistic'
-    //                     }
-    //                 }, function(response, status) {
-    //                     if (status === 'OK') {
-    //                         directionsRenderer.setDirections(test);
-    //                     }
-    //                 });
-    //         }
-    //     });
+    // var directions = new Directions();
+    // directions.routes = [];
+    // directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[index].bounds.northeast.lat, data.routes[index].bounds.northwest.lng);
+    let directions = directionsRenderer.getDirections();
+    if(directions === undefined)
+    {
+        console.log("test is undefined");
+    }
+    directions.geocoded_waypoints = data.geocoded_waypoints;
 
+    directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[index].bounds.northeast.lat, data.routes[index].bounds.northeast.lng);
+    directions.routes[0].bounds.southwest = new google.maps.LatLng(data.routes[index].bounds.southwest.lat, data.routes[index].bounds.southwest.lng);
+
+    directions.routes[0].copyrights = data.routes[index].copyrights;
+
+    data.routes[index].legs.forEach(processLeg);
+
+    function processLeg(leg, i, arr)
+    {
+        directions.routes[0].legs[i].arrival_time = leg.arrival_time;
+        directions.routes[0].legs[i].departure_time = leg.departure_time;
+        directions.routes[0].legs[i].distance = leg.distance;
+        directions.routes[0].legs[i].duration = leg.duration;
+        directions.routes[0].legs[i].end_address = leg.end_address;
+        directions.routes[0].legs[i].end_location = new google.maps.LatLng(leg.end_location.lat, leg.end_location.lng);
+        directions.routes[0].legs[i].start_address = leg.start_address;
+        directions.routes[0].legs[i].start_location = new google.maps.LatLng(leg.start_location.lat, leg.start_location.lng);
+
+        leg.steps.forEach(processStep)
+
+        function processStep(step, j, arr)
+        {
+            directions.routes[0].legs[i].steps[j].distance = step.distance;
+            directions.routes[0].legs[i].steps[j].duration = step.duration;
+            directions.routes[0].legs[i].steps[j].end_location = new google.maps.LatLng(step.end_location.lat, step.end_location.lng);
+            directions.routes[0].legs[i].steps[j].html_instructions = step.html_instructions;
+            directions.routes[0].legs[i].steps[j].start_location = new google.maps.LatLng(step.start_location.lat, step.start_location.lng);
+            directions.routes[0].legs[i].steps[j].travel_mode = step.travel_mode;
+            console.log(directions.routes[0].legs[i].steps[j].travel_mode);
+        }
+    }
+    console.log(directions);
+    directionsRenderer.setDirections(directions);
 
     // directionsService.route(
     //     {
