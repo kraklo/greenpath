@@ -50,7 +50,7 @@ class RouteRenderer extends React.Component {
 
     fetch(fetchAddress)
       .then(response => response.json())
-      .then(data => this.setState({ postId: data.id }));
+      .then(data => console.log(data));
   }
 
   sendAddresses() {

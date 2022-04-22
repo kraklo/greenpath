@@ -9,6 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <div className="search_container">
+      <span className="start_trip">Start Trip</span>
       <GetAddresses />
       <GetRoutes />
     </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import './GetAddresses.css';
 
 function GetAddresses() {
     return (
