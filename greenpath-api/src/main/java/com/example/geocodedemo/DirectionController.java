@@ -10,13 +10,10 @@ import java.net.URLEncoder;
 
 @RestController
 public class DirectionController {
-
-    final String GOOGLE_MAPS_API = "https://maps.googleapis.com/maps/api/directions/json?";
-
     @RequestMapping(path = "/direction", method = RequestMethod.GET )
     public DirectionResult getDirection(@RequestParam String origin, @RequestParam String destination) throws IOException {
         DirectionApi requestTest = new DirectionApi(origin, destination);
-        DirectionResult transitResult = requestTest.mode(TravelMode.DRIVING).getResult();
+        DirectionResult transitResult = requestTest.mode(TravelMode.TRANSIT).getResult();
         Emissions em = new Emissions();
         em.calculateRouteEmissions(transitResult.routeList);
         String savedUrl = requestTest.getUrl();
