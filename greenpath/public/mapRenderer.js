@@ -26,10 +26,10 @@ function initMap() {
         }
     });
 
-    var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+    var melbourne = new google.maps.LatLng( -37.840935, 144.946457);
     var mapOptions = {
-        zoom:7,
-        center: chicago
+        zoom:10,
+        center: melbourne
     }
     var map = new google.maps.Map(document.getElementById('map'), mapOptions);
     directionsRenderer.setMap(map);
@@ -134,7 +134,7 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
     console.log(storedDirections.routes[0].legs[0].steps.length);
     directionsRenderer.setDirections(directions);
 
-    await sleep(500);
+    await sleep(200);
 
     var poly = new google.maps.Polyline({
         strokeColor: '#5CC600',
