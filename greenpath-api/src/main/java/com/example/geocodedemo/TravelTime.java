@@ -1,0 +1,17 @@
+package com.example.geocodedemo;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TravelTime
+{
+    @JsonProperty("text")
+    public String text;
+
+    @JsonProperty("time_zone")
+    public String timezone;
+
+    @JsonProperty("value")
+    public String value;
+}

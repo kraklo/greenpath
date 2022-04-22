@@ -1,15 +1,18 @@
 package com.example.geocodedemo;
 
-import okhttp3.ResponseBody;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.IOException;
+import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DirectionResult
 {
-    String body;
+    @JsonProperty("geocoded_waypoints")
+    public List<GeocodedWaypoint> geocodedWaypointList;
 
-    public DirectionResult(ResponseBody _body) throws IOException
-    {
-        body = _body.string();
-    }
+    @JsonProperty("routes")
+    public List<Route> routeList;
+
+
 }

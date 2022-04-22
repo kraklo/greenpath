@@ -1,5 +1,6 @@
 package com.example.geocodedemo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -48,7 +49,6 @@ public class DirectionApi {
         return url.GetUrl();
     }
 
-
     public DirectionResult getResult() throws IOException
     {
         OkHttpClient client = new OkHttpClient();
@@ -60,7 +60,7 @@ public class DirectionApi {
                 .build();
         ResponseBody responseBody = client.newCall(request).execute().body();
 
-        DirectionResult result = new DirectionResult(responseBody);
-        return result;
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(responseBody.string(), DirectionResult.class);
     }
 }
