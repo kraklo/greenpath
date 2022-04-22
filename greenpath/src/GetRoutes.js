@@ -42,9 +42,11 @@ function Route(props) {
     return (
       <div className='route_option'>
         <span className='arrival_destination_time'>{depart} - {arrive}</span>
-        <span className='duration'>{durationText}</span>
+        <div className='duration_emissions'>
+          <span className='duration'>{durationText} / <span className='emissions'>{Math.trunc(emissions)} grams</span></span>
+        </div>
         <img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>
-        <p>Footprint: {Math.trunc(emissions)} grams</p>
+
       </div>
     );
   }
