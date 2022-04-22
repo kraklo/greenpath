@@ -16,6 +16,8 @@ public class DirectionApi {
     private String destination;
     private TravelMode mode = TravelMode.DRIVING;
 
+    private boolean alt_routes = true;
+
     public DirectionApi(String _origin, String _destination) {
         origin(_origin);
         destination(_destination);
@@ -45,6 +47,7 @@ public class DirectionApi {
         url.putField("origin", origin);
         url.putField("destination", destination);
         url.putField("mode", mode.toString());
+        url.putField("alternatives", String.valueOf(alt_routes));
         url.putField("key", API_KEY);
         return url.GetUrl();
     }
