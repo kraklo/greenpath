@@ -70,4 +70,17 @@ public class DirectionApi {
         }
         return result;
     }
+
+    public String getResultString(TravelMode travelMode) throws IOException
+    {
+        OkHttpClient client = new OkHttpClient();
+        String targetUrl = getUrl();
+
+        Request request = new Request.Builder()
+                .url(targetUrl)
+                .get()
+                .build();
+        ResponseBody responseBody = client.newCall(request).execute().body();
+        return responseBody.string();
+    }
 }

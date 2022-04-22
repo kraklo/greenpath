@@ -20,6 +20,8 @@ function initMap() {
             storedDirections = response;
             console.log(storedDirections);
             console.log("ready!");
+            let newPath = google.maps.geometry.encoding.decodePath(storedDirections.routes[0].overview_polyline);
+            console.log(newPath.length);
             // directionsRenderer.setDirections(response);
         }
     });
@@ -85,7 +87,16 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
 
     // directions.routes[0].overview_path.forEach(processPath);
 
-    directions.routes[0].overview_polyline = data.routes[index].overview_polyline;
+    let newPath = google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points);
+    console.log(newPath.length);
+    directions.routes[0].overview_path.length = newPath.length;
+    newPath.forEach(processPath)
+    function processPath(path, i, arr)
+    {
+        directions.routes[0].overview_path[i] = path;
+    }
+
+    directions.routes[0].overview_polyline = data.routes[index].overview_polyline.points;
 
     data.routes[index].legs.forEach(processLeg);
 

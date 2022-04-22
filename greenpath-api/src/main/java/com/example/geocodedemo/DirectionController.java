@@ -33,4 +33,10 @@ public class DirectionController {
 
         return finalResult;
     }
+
+    @RequestMapping(path = "/directionString", method = RequestMethod.GET )
+    public String getDirectionString(@RequestParam String origin, @RequestParam String destination) throws IOException {
+        DirectionApi requestTest = new DirectionApi(origin, destination);
+        return requestTest.mode(TravelMode.WALKING).getResultString(TravelMode.WALKING);
+    }
 }
