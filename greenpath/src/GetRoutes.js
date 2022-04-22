@@ -41,7 +41,23 @@ class RouteRenderer extends React.Component {
     this.state = {
       routes: Array(sampleApiReturn.length).fill(null),
       error: null,
+      postId: null,
     };
+  }
+
+  fetchFromApi(addressOrigin, addressDestination) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        origin: addressOrigin,
+        destination: addressDestination
+      })
+    };
+
+    fetch('http://localhost:8080/direction', requestOptions)
+      .then(response => response.json())
+      .then(data => this.setState({ postId: data.id }));
   }
 
   sendAddresses() {
@@ -50,7 +66,7 @@ class RouteRenderer extends React.Component {
     const addresses = getAddresses();
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
-      // send to api
+      this.fetchFromApi(addresses.addressOrigin, addresses.addressDestination);
     } else {
       this.setState({ error: 'Two valid addresses not input' });
     }
