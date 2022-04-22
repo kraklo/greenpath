@@ -41,7 +41,7 @@ function Route(props) {
     });
     const emissions = props.route.emissions.value;
     return (
-      <div className='route_option'>
+      <div className='route_option' onClick={props.onClick}>
         <span className='arrival_destination_time'>{depart} - {arrive}</span>
         <div className='duration_emissions'>
           <span className='duration'>{durationText} / <span className='emissions'>{Math.trunc(emissions)} grams</span></span>
@@ -64,6 +64,10 @@ class GetRoutes extends React.Component {
     console.log(response);
     const routes = await response.json();
     this.props.onRoutesGet(routes, false);
+  }
+
+  showSteps() {
+    this.props.changePage('ShowSteps');
   }
 
   async sendAddresses() {
@@ -93,7 +97,10 @@ class GetRoutes extends React.Component {
   }
 
   renderRoute(route) {
-    return <Route route={route} />;
+    return <Route
+      route={route}
+      onClick={() => this.showSteps()}
+    />;
   }
 
   renderAllRoutes() {
