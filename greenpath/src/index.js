@@ -8,8 +8,10 @@ import GetAddresses from './GetAddresses';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GetAddresses />
-    <GetRoutes />
+    <div class="search_container">
+      <GetAddresses />
+      <GetRoutes />
+    </div>
   </React.StrictMode>
 );
 

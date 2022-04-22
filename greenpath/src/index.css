@@ -5,9 +5,46 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: white;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+header {
+  position: absolute;
+  width: 1728px;
+  height: 67px;
+  left: 0px;
+  top: 0px;
+
+  background: #2D2D2D;
+}
+
+.search_container {
+  position: absolute;
+  width: 445px;
+  height: 360px;
+  left: 70px;
+  top: 158px;
+}
+
+.header_text {
+  position: absolute;
+  width: 146px;
+  height: 39px;
+  left: 68px;
+  top: 14px;
+
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 130.7%;
+  /* or 39px */
+
+
+  color: #FFFFFF;
 }
