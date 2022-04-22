@@ -1,6 +1,7 @@
 let map;
 let storedDirections;
 let path;
+let paths = [];
 let storedRoutes;
 let directionsService;
 let directionsRenderer;
@@ -68,24 +69,6 @@ function loadRoutes()
     }).then(function(data) {
         setStoredData(data);
     });
-}
-
-function tryProcessMap(index) {
-    var addressDestination = "ArtsWestMelbourne";
-    var addressOrigin = "8SutherlandStreetMelbourne";
-    var url = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
-    fetch(url).then(function(response) {
-        return response.json();
-    }).then(function(data) {
-        console.log("Original Back-end Data")
-        console.log(data);
-        console.log("Stored Directions 1");
-        console.log(storedDirections.routes[0].legs[0].steps.length);
-        processMap(data, index);
-    });
-    //     .catch(function() {
-    //     console.log("Booo");
-    // });
 }
 
 async function processMap(index)
@@ -166,9 +149,29 @@ async function processMap(index)
     console.log("Path");
     console.log(path === undefined);
 
-    if(path !== undefined)
-        removeLine();
-    path = new google.maps.Polyline({
+    paths.length = data.routes.length;
+    data.routes.forEach(processPolyline);
+    function processPolyline(route, i, arr)
+    {
+        if(paths[i] !== undefined && paths[i] !== null)
+            paths[i].setMap(null)
+
+        if(i === index)
+            return;
+
+        paths[i] = new google.maps.Polyline({
+            strokeColor: '#BBBDBF',
+            strokeOpacity: 1,
+            strokeWeight: 3,
+            map: map,
+            geodesic: true,
+            path: google.maps.geometry.encoding.decodePath(data.routes[i].overview_polyline.points)
+        });
+
+        paths[i].setMap(map);
+    }
+
+    paths[index] = new google.maps.Polyline({
         strokeColor: '#5CC600',
         strokeOpacity: 1,
         strokeWeight: 5,
@@ -176,7 +179,18 @@ async function processMap(index)
         geodesic: true,
         path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
     });
-    addLine();
+    paths[index].setMap(map);
+    // if(path !== undefined)
+    //     removeLine();
+    // path = new google.maps.Polyline({
+    //     strokeColor: '#5CC600',
+    //     strokeOpacity: 1,
+    //     strokeWeight: 5,
+    //     map: map,
+    //     geodesic: true,
+    //     path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
+    // });
+    // addLine();
 
     var bounds = new google.maps.LatLngBounds();
     var northeastBound = directions.routes[0].bounds.northeast;
