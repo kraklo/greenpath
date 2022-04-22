@@ -153,7 +153,7 @@ async function processMap(data, index)
     console.log(storedDirections.routes[0].legs[0].steps.length);
     directionsRenderer.setDirections(directions);
 
-    await sleep(200);
+    await sleep(100);
 
     console.log("Path");
     console.log(path === undefined);
