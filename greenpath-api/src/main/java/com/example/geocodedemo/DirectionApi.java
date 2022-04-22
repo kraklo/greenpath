@@ -16,7 +16,7 @@ public class DirectionApi {
     private String destination;
     private TravelMode mode = TravelMode.DRIVING;
 
-    private boolean alt_routes = true;
+    private boolean alt_routes = false;
 
     public DirectionApi(String _origin, String _destination) {
         origin(_origin);
