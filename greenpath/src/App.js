@@ -2,6 +2,7 @@ import React from 'react';
 import GetAddresses from './GetAddresses';
 import GetRoutes from './GetRoutes';
 import './App.css'
+import GetMap from "./GetMap";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             </div>
             <GetAddresses />
             <GetRoutes />
+            <GetMap/>
         </div>
     );
 }
