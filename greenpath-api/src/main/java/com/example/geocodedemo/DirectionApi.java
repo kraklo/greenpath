@@ -49,7 +49,7 @@ public class DirectionApi {
         return url.GetUrl();
     }
 
-    public DirectionResult getResult() throws IOException
+    public DirectionResult getResult(TravelMode travelMode) throws IOException
     {
         OkHttpClient client = new OkHttpClient();
         String targetUrl = getUrl();
@@ -61,6 +61,10 @@ public class DirectionApi {
         ResponseBody responseBody = client.newCall(request).execute().body();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(responseBody.string(), DirectionResult.class);
+        DirectionResult result = objectMapper.readValue(responseBody.string(), DirectionResult.class);
+        for (Route r:result.routeList){
+            r.type = travelMode;
+        }
+        return result;
     }
 }
