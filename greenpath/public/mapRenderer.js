@@ -1,6 +1,7 @@
 let map;
 let storedDirections;
 let path;
+let storedRoutes;
 
 function initMap() {
     const directionsService = new google.maps.DirectionsService();
@@ -17,11 +18,7 @@ function initMap() {
         }
     }, function(response, status) {
         if (status === 'OK') {
-            console.log("Before");
             storedDirections = response;
-            console.log(response);
-            console.log("After");
-            console.log(response);
             console.log("ready!");
             // directionsRenderer.setDirections(response);
         }
@@ -38,15 +35,32 @@ function initMap() {
     directionsRenderer.setMap(map);
     directionsRenderer.setPanel(document.getElementById('directionsPanel'));
 
+    const onLoadHandler = function() {
+        loadRoutes();
+    }
     const onChangeHandler = function () {
-        tryProcessMap(0, directionsService, directionsRenderer, map);
+        processMap(storedRoutes, 0, directionsService, directionsRenderer, map);
     };
     const onChangeHandlerTwo = function () {
-        tryProcessMap(1, directionsService, directionsRenderer, map);
+        processMap(storedRoutes, 1, directionsService, directionsRenderer, map);
     };
 
+    document.getElementById("load").addEventListener("click", onLoadHandler);
     document.getElementById("click").addEventListener("click", onChangeHandler);
     document.getElementById("click-two").addEventListener("click", onChangeHandlerTwo);
+}
+
+function loadRoutes()
+{
+    var addressDestination = "ArtsWestMelbourne";
+    var addressOrigin = "8SutherlandStreetMelbourne";
+    var url = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
+    fetch(url).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        storedRoutes = data;
+        console.log("Data has been stored!");
+    });
 }
 
 function tryProcessMap(index, directionsService, directionsRenderer, map) {
