@@ -11,34 +11,44 @@ public class Emissions {
         id = 1;
     }
 
+    public static final String doubleFormat = "%.3f";
+
     public void calculateRouteEmissions(List<Route> routes){
         double routeEmission;
-        double legEmission = 0.0;
+        double legEmission;
         for (Route r:routes){
             routeEmission = 0.0;
             for (Leg l:r.legs) {
                 legEmission = calculateLegEmissions(l.stepList);
                 routeEmission += legEmission;
-                l.emissions_leg = legEmission;
+                l.emissions_leg = new TextValue();
+                l.emissions_leg.value = legEmission;
+                l.emissions_leg.text = String.format(doubleFormat, legEmission);
             }
-            r.emissions = routeEmission;
+            r.emissions = new TextValue();
+            r.emissions.value = routeEmission;
+            r.emissions.text = String.format(doubleFormat, routeEmission);
         }
     }
     public double calculateLegEmissions(List<Step> step){
         double total = 0.0;
-        for (Step s:step){
-            switch(s.travelMode) {
+        for (Step s:step) {
+            s.emissions = new TextValue();
+            switch (s.travelMode) {
                 case DRIVING:
-                    s.emissions = calculateDriving(s.distance.value);
-                    total+=s.emissions;
+                    s.emissions.value = calculateDriving(s.distance.value);
+                    s.emissions.text = String.format(doubleFormat, s.emissions.value);
+                    total += s.emissions.value;
                     break;
                 case TRANSIT:
-                    s.emissions = calculateBus(s.distance.value);
-                    total+=s.emissions;
+                    s.emissions.value = calculateTransit(s.distance.value);
+                    s.emissions.text = String.format(doubleFormat, s.emissions.value);
+                    total += s.emissions.value;
                     break;
                 case WALKING:
                 case BICYCLING:
-                    s.emissions = 0.0;
+                    s.emissions.value = 0.0;
+                    s.emissions.text = "0.000";
                     break;
             }
         }
@@ -48,8 +58,7 @@ public class Emissions {
     public double calculateDriving(double meters){
         return meters*DRIVING_EMISSIONS/1000;
     }
-
-    public double calculateBus(double meters){
+    public double calculateTransit(double meters){
         return meters*TRANSIT_EMISSIONS/1000;
     }
 }
