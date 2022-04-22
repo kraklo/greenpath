@@ -60,12 +60,17 @@ function processMap(data, index, directionsService, directionsRenderer)
     {
         console.log("test is undefined");
     }
+
     directions.geocoded_waypoints = data.geocoded_waypoints;
 
     directions.routes[0].bounds.northeast = new google.maps.LatLng(data.routes[index].bounds.northeast.lat, data.routes[index].bounds.northeast.lng);
     directions.routes[0].bounds.southwest = new google.maps.LatLng(data.routes[index].bounds.southwest.lat, data.routes[index].bounds.southwest.lng);
 
     directions.routes[0].copyrights = data.routes[index].copyrights;
+
+    // directions.routes[0].overview_path.forEach(processPath);
+
+    directions.routes[0].overview_polyline = data.routes[index].overview_polyline;
 
     data.routes[index].legs.forEach(processLeg);
 
@@ -79,9 +84,10 @@ function processMap(data, index, directionsService, directionsRenderer)
         directions.routes[0].legs[i].end_location = new google.maps.LatLng(leg.end_location.lat, leg.end_location.lng);
         directions.routes[0].legs[i].start_address = leg.start_address;
         directions.routes[0].legs[i].start_location = new google.maps.LatLng(leg.start_location.lat, leg.start_location.lng);
-
+        
         leg.steps.forEach(processStep)
 
+        directions.routes[0].legs[i].steps.length = leg.steps.length;
         function processStep(step, j, arr)
         {
             directions.routes[0].legs[i].steps[j].distance = step.distance;
@@ -93,6 +99,7 @@ function processMap(data, index, directionsService, directionsRenderer)
             console.log(directions.routes[0].legs[i].steps[j].travel_mode);
         }
     }
+
     console.log(directions);
     directionsRenderer.setDirections(directions);
 

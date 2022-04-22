@@ -1,17 +1,17 @@
 import React from 'react';
 import './GetRoutes.css';
 import { fetchAddresses } from './GetAddresses';
-import DRIVING from './images/DRIVING.svg';
-import WALKING from './images/WALKING.svg';
-import TRANSIT from './images/TRANSIT.svg';
-import BICYCLING from './images/BICYCLING.svg';
+// import DRIVING from './images/DRIVING.svg';
+// import WALKING from './images/WALKING.svg';
+// import TRANSIT from './images/TRANSIT.svg';
+// import BICYCLING from './images/BICYCLING.svg';
 
-const icons = {
-  DRIVING,
-  WALKING,
-  TRANSIT,
-  BICYCLING
-};
+// const icons = {
+//   DRIVING,
+//   WALKING,
+//   TRANSIT,
+//   BICYCLING
+// };
 
 function RouteGetter(props) {
   return (
@@ -45,7 +45,7 @@ function Route(props) {
         <div className='duration_emissions'>
           <span className='duration'>{durationText} / <span className='emissions'>{Math.trunc(emissions)} grams</span></span>
         </div>
-        <img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>
+        {/*<img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>*/}
 
       </div>
     );
