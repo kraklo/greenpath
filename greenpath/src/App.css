@@ -28,14 +28,17 @@
 .search_wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 24px;
 
     position: absolute;
     width: 445px;
     height: auto;
+    max-height: 70vh;
     left: 70px;
     top: 158px;
+
+    overflow-y: auto;
 
     background: rgba(255, 255, 255, 0.97);
     /* Box Shadows/Small */
@@ -44,7 +47,10 @@
     border-radius: 20px;
 }
 
-.GetMap {
-    position: absolute;
-    top: 67px;
+.GetRoutes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
 }

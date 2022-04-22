@@ -3,7 +3,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 30.0972px 38.3056px 32.8333px;
 
     position: static;
     width: 167px;
@@ -20,19 +19,16 @@
     flex: none;
     order: 0;
     flex-grow: 0;
-    margin: 0px 32.8333px;
 }
 
 .button_wrapper {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding-left: 55px;
 
     position: static;
     width: 167px;
     height: 43px;
-    left: 203px;
     top: 429px;
 }
 
@@ -62,4 +58,19 @@
     order: 0;
     flex-grow: 0;
     margin: 0px 27.3611px;
+}
+
+.route_option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px;
+    margin: 10px;
+    width: calc(100% - 30px);
+
+    background: rgba(255, 255, 255, 0.77);
+    /* Box Shadows/Small */
+
+    box-shadow: 0px 11px 20px rgba(5, 16, 55, 0.1);
+    border-radius: 6px;
 }
