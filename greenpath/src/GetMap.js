@@ -1,12 +1,12 @@
 import React from 'react';
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
-const GOOGLE_API_KEY = 'AIzaSyCHWC6UAUW6eR6CGZjHnnCFkBrczCClb6Q';
+const GOOGLE_API_KEY = 'AIzaSyCnJX2TjykeZQwpOkPgOU__1im8OXJ5KP8';
 const libraries = ["places"];
 
 const mapContainerStyle = {
     width: '100vw',
-    height: '100vh',
+    height: 'calc(100vh - 67px)',
     position: 'absolute',
     top: '67px'
 };

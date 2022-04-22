@@ -1,6 +1,17 @@
 import React from 'react';
 import './GetRoutes.css';
 import { fetchAddresses } from './GetAddresses';
+import DRIVING from './images/DRIVING.svg';
+import WALKING from './images/WALKING.svg';
+import TRANSIT from './images/TRANSIT.svg';
+import BICYCLING from './images/BICYCLING.svg';
+
+const icons = {
+  DRIVING,
+  WALKING,
+  TRANSIT,
+  BICYCLING
+};
 
 function RouteGetter(props) {
   return (
@@ -14,10 +25,28 @@ function RouteGetter(props) {
 
 function Route(props) {
   if (props.route) {
+    console.log(props.route);
+    const today = new Date();
+    const depart = today.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+    const durationVal = props.route.legs[0].duration.value;
+    const durationText = props.route.legs[0].duration.text;
+    const arrival = new Date(today.getTime() + durationVal * 1000)
+    const arrive = arrival.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+    const emissions = props.route.emissions.value;
     return (
-      <div>
-        <h3>Method: {props.route.method}</h3>
-        <p>Footprint: {props.route.footprint}</p>
+      <div className='route_option'>
+        <span className='arrival_destination_time'>{depart} - {arrive}</span>
+        <div className='duration_emissions'>
+          <span className='duration'>{durationText} / <span className='emissions'>{Math.trunc(emissions)} grams</span></span>
+        </div>
+        <img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>
+
       </div>
     );
   }
@@ -31,16 +60,21 @@ class RouteRenderer extends React.Component {
     this.state = {
       routes: {},
       error: null,
+      loading: false,
     };
   }
 
   async fetchFromApi(addressOrigin, addressDestination) {
     const fetchAddress = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
+    this.setState({ loading: true });
 
     const response = await fetch(fetchAddress);
     console.log(response);
     const routes = await response.json();
-    return routes;
+    this.setState({
+      routes: routes,
+      loading: false
+    });
   }
 
   async sendAddresses() {
@@ -48,8 +82,7 @@ class RouteRenderer extends React.Component {
     const addresses = fetchAddresses();
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
-      const routes = await this.fetchFromApi(addresses.origin, addresses.destination);
-      this.setState({ routes: routes });
+      await this.fetchFromApi(addresses.origin, addresses.destination);
       return true;
     } else {
       this.setState({ error: 'Two valid addresses not input' });
@@ -74,6 +107,20 @@ class RouteRenderer extends React.Component {
         <span style={{ color: 'red' }}> {this.state.error}</span>
       );
     }
+
+    if (this.state.loading) {
+      return (
+        <span>Loading...</span>
+      );
+    } else if (Object.keys(this.state.routes).length !== 0) {
+      const routeItems = this.state.routes.routes.map(route => {
+        return this.renderRoute(route);
+      });
+
+      console.log(this.state.routes);
+      console.log(routeItems);
+      return routeItems;
+    }
   }
 
   renderRouteGetter() {
@@ -82,10 +129,10 @@ class RouteRenderer extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         {this.renderRouteGetter()}
         {this.renderAllRoutes()}
-      </div>
+      </>
     );
   }
 }

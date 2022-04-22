@@ -7,9 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Step
 {
-    @JsonProperty("distance")
-    public TextValue distance;
-
     @JsonProperty("duration")
     public TextValue duration;
 
@@ -19,12 +16,15 @@ public class Step
     @JsonProperty("html_instructions")
     public String htmlInstructions;
 
-    //Skip polyline?
-    @JsonProperty("travel_mode")
-    public TravelMode travelMode;
+    @JsonProperty("polyline")
+    public DirectionsPolyline polyLine;
 
     @JsonProperty("start_location")
     public Location startLocation;
+    @JsonProperty("travel_mode")
+    public TravelMode travelMode;
+    @JsonProperty("distance")
+    public TextValue distance;
 
     //Added properties
     @JsonProperty("emissions_step")

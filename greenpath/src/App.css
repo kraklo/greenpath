@@ -12,30 +12,34 @@
     line-height: 130.7%;
     /* or 52px */
 
-
     color: #000000;
 }
 
 .title_wrapper {
     position: static;
-    width: 25px;
-    height: 28px;
+    width: auto;
+    height: auto;
     left: 470px;
-    top: 319px;
+    top: 330px;
     padding: 20px;
+    margin: 13px;
 }
 
 .search_wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 24px;
 
     position: absolute;
     width: 445px;
-    height: 360px;
+    height: auto;
+    max-height: 70vh;
     left: 70px;
     top: 158px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
 
     background: rgba(255, 255, 255, 0.97);
     /* Box Shadows/Small */
@@ -44,7 +48,10 @@
     border-radius: 20px;
 }
 
-.GetMap {
-    position: absolute;
-    top: 67px;
+.GetRoutes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
 }
