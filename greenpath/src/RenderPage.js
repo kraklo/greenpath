@@ -19,7 +19,12 @@ class GetPage extends React.Component {
             page: 'GetRoutes',
             originAddress: '',
             destinationAddress: '',
+            stepsToRender: null,
         };
+    }
+
+    changeStepsToRender(stepsToRender) {
+        this.setState({ stepsToRender: stepsToRender });
     }
 
     onLoading(loading) {
@@ -54,6 +59,7 @@ class GetPage extends React.Component {
             this.setState({ page: 'ShowRoutes' });
         } else {
             this.setState({ page: 'GetRoutes' });
+            window['clearPaths']();
         }
     }
 
@@ -82,6 +88,8 @@ class GetPage extends React.Component {
                             originAddress={this.state.originAddress}
                             destinationAddress={this.state.destinationAddress}
                             changePage={(page) => this.changePage(page)}
+                            stepsToRender={this.state.stepsToRender}
+                            changeStepsToRender={(stepsToRender) => this.changeStepsToRender(stepsToRender)}
                         />
                     </div>
                 </div>
@@ -105,6 +113,8 @@ class GetPage extends React.Component {
                             originAddress={this.state.originAddress}
                             destinationAddress={this.state.destinationAddress}
                             changePage={(page) => this.changePage(page)}
+                            stepsToRender={this.state.stepsToRender}
+                            changeStepsToRender={(stepsToRender) => this.changeStepsToRender(stepsToRender)}
                         />
                     </div>
                 </div>
@@ -115,6 +125,20 @@ class GetPage extends React.Component {
                     <BackButton onClick={() => this.previousPage()} />
                     <div className="title_wrapper">
                         <span className="start_trip">Directions</span>
+                        <GetRoutes
+                            onLoading={(loading) => this.onLoading(loading)}
+                            onRoutesGet={(routes, loading) => this.onRoutesGet(routes, loading)}
+                            changeError={(error) => this.changeError(error)}
+                            routes={this.state.routes}
+                            error={this.state.error}
+                            loading={this.state.loading}
+                            page={this.state.page}
+                            originAddress={this.state.originAddress}
+                            destinationAddress={this.state.destinationAddress}
+                            changePage={(page) => this.changePage(page)}
+                            stepsToRender={this.state.stepsToRender}
+                            changeStepsToRender={(stepsToRender) => this.changeStepsToRender(stepsToRender)}
+                        />
                     </div>
                 </div>
             );
