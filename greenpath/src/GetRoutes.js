@@ -1,6 +1,17 @@
 import React from 'react';
 import './GetRoutes.css';
 import { fetchAddresses } from './GetAddresses';
+import DRIVING from './images/DRIVING.svg';
+import WALKING from './images/WALKING.svg';
+import TRANSIT from './images/TRANSIT.svg';
+import BICYCLING from './images/BICYCLING.svg';
+
+const icons = {
+  DRIVING,
+  WALKING,
+  TRANSIT,
+  BICYCLING
+};
 
 function RouteGetter(props) {
   return (
@@ -17,8 +28,8 @@ function Route(props) {
     console.log(props.route);
     return (
       <div className='route_option'>
-        <h3>Method: {props.route.method}</h3>
-        <p>Footprint: {props.route.footprint.text}</p>
+        <img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>
+        <p>Footprint: {props.route.emissions.text}</p>
       </div>
     );
   }
@@ -86,10 +97,7 @@ class RouteRenderer extends React.Component {
       );
     } else if (Object.keys(this.state.routes).length !== 0) {
       const routeItems = this.state.routes.routes.map(route => {
-        return this.renderRoute({
-          method: route.type,
-          footprint: route.emissions
-        });
+        return this.renderRoute(route);
       });
 
       console.log(this.state.routes);
