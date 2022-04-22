@@ -46,16 +46,9 @@ class RouteRenderer extends React.Component {
   }
 
   fetchFromApi(addressOrigin, addressDestination) {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        origin: addressOrigin,
-        destination: addressDestination
-      })
-    };
+    const fetchAddress = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
 
-    fetch('http://localhost:8080/direction', requestOptions)
+    fetch(fetchAddress)
       .then(response => response.json())
       .then(data => this.setState({ postId: data.id }));
   }
