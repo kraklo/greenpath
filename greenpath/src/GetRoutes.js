@@ -22,12 +22,16 @@ function Step(props) {
 }
 
 function RouteGetter(props) {
+  const loadingContent = props.loading ? (<h3>Loading...</h3>) : null;
   return (
-    <div className='button_wrapper'>
-      <button className="go_button" onClick={props.onClick}>
-        <span className="button_text">GO</span>
-      </button>
-    </div>
+    <>
+      <div className='button_wrapper'>
+        <button className="go_button" onClick={props.onClick}>
+          <span className="button_text">GO</span>
+        </button>
+      </div>
+      {loadingContent}
+    </>
   );
 }
 
@@ -170,9 +174,7 @@ class GetRoutes extends React.Component {
     }
 
     if (this.props.loading) {
-      return (
-        <span>Loading...</span>
-      );
+      return null;
     } else if (Object.keys(this.props.routes).length !== 0) {
       const routeItems = [];
       let i = 0;
@@ -188,7 +190,10 @@ class GetRoutes extends React.Component {
   }
 
   renderRouteGetter() {
-    return <RouteGetter onClick={() => this.getAllRoutes()} />;
+    return <RouteGetter
+      onClick={() => this.getAllRoutes()}
+      loading={this.props.loading}
+    />;
   }
 
   render() {
