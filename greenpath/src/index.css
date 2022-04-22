@@ -1,3 +1,7 @@
+#map {
+  height: 700px;
+  width: 1000px;
+}
 body {
   position: relative;
   width: 100%;

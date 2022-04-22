@@ -2,7 +2,7 @@ import React from 'react';
 import Autocomplete from 'react-google-autocomplete';
 import './GetAddresses.css';
 
-const API_KEY = 'AIzaSyAehgtggYLjbAZ8WQQ4hcOYq1MkbyTGKGU';
+const API_KEY = 'AIzaSyCnJX2TjykeZQwpOkPgOU__1im8OXJ5KP8';
 
 const options = {
     fields: ['formatted_address'],

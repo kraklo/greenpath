@@ -7,7 +7,7 @@ import GetMap from "./GetMap";
 function App() {
     return (
         <>
-            <GetMap />
+            {/*<GetMap />*/}
             <div className='search_wrapper'>
                 <div className="title_wrapper">
                     <span className="start_trip">Start Trip</span>
