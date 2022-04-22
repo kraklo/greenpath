@@ -31,16 +31,21 @@ class RouteRenderer extends React.Component {
     this.state = {
       routes: {},
       error: null,
+      loading: false,
     };
   }
 
   async fetchFromApi(addressOrigin, addressDestination) {
     const fetchAddress = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
+    this.setState({ loading: true });
 
     const response = await fetch(fetchAddress);
     console.log(response);
     const routes = await response.json();
-    return routes;
+    this.setState({
+      routes: routes,
+      loading: false
+    });
   }
 
   async sendAddresses() {
@@ -48,8 +53,7 @@ class RouteRenderer extends React.Component {
     const addresses = fetchAddresses();
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
-      const routes = await this.fetchFromApi(addresses.origin, addresses.destination);
-      this.setState({ routes: routes });
+      await this.fetchFromApi(addresses.origin, addresses.destination);
       return true;
     } else {
       this.setState({ error: 'Two valid addresses not input' });
@@ -74,6 +78,23 @@ class RouteRenderer extends React.Component {
         <span style={{ color: 'red' }}> {this.state.error}</span>
       );
     }
+
+    if (this.state.loading) {
+      return (
+        <span>Loading...</span>
+      );
+    } else if (Object.keys(this.state.routes).length !== 0) {
+      const routeItems = this.state.routes.routes.map(route => {
+        return this.renderRoute({
+          method: route.type,
+          footprint: route.emissions
+        });
+      });
+
+      console.log(this.state.routes);
+      console.log(routeItems);
+      return routeItems;
+    }
   }
 
   renderRouteGetter() {
@@ -82,10 +103,10 @@ class RouteRenderer extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         {this.renderRouteGetter()}
         {this.renderAllRoutes()}
-      </div>
+      </>
     );
   }
 }
