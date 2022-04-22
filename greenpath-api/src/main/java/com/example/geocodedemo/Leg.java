@@ -37,5 +37,5 @@ public class Leg
     public List<Step> stepList;
 
     @JsonProperty("emissions_leg")
-    public double emissions_leg;
+    public TextValue emissions_leg;
 }

@@ -18,7 +18,7 @@ public class Route
     public List<Leg> legs;
 
     @JsonProperty("emissions")
-    public double emissions;
+    public TextValue emissions;
 
     @JsonProperty("type")
     public TravelMode type;
