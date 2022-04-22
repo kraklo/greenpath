@@ -1,13 +1,14 @@
 import React from 'react';
-import {GoogleMap, useLoadScript, Marker, InfoWindow, LoadScript} from "@react-google-maps/api";
-import Map from "./Map";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const GOOGLE_API_KEY = 'AIzaSyCHWC6UAUW6eR6CGZjHnnCFkBrczCClb6Q';
 const libraries = ["places"];
 
 const mapContainerStyle = {
     width: '100vw',
-    height: '100vh'
+    height: '100vh',
+    position: 'absolute',
+    top: '67px'
 };
 
 const center = {
@@ -17,7 +18,6 @@ const center = {
 
 export default function GetMap() {
     return (
-        // <div>test</div>
         <LoadScript
             id="script-loader"
             googleMapsApiKey={GOOGLE_API_KEY}
@@ -26,8 +26,7 @@ export default function GetMap() {
             version="weekly"
             libraries={libraries}
         >
-            <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom = {10}></GoogleMap>
-            {/*<Map />*/}
+            <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={10}></GoogleMap>
         </LoadScript>
     )
 }
