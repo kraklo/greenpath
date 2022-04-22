@@ -13,6 +13,13 @@ const icons = {
   BICYCLING
 };
 
+function Step(props) {
+  return (
+    <div className='route_option'>
+      <span className='step' dangerouslySetInnerHTML={{ __html: props.instruction }}></span>
+    </div>
+  );
+}
 
 function RouteGetter(props) {
   return (
@@ -66,23 +73,40 @@ class GetRoutes extends React.Component {
     this.props.onRoutesGet(routes, false);
   }
 
+  renderAllSteps() {
+    const steps = this.props.stepsToRender;
+    const instructions = steps.map((step) => {
+      return <Step instruction={step.html_instructions} />
+    })
+
+    return instructions;
+  }
+
   showWalk() {
     window['processMap'](0);
+    const steps = this.props.routes.routes[0].legs[0].steps;
+    this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
 
   showBike() {
     window['processMap'](1);
+    const steps = this.props.routes.routes[1].legs[0].steps;
+    this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
 
   showTransit() {
     window['processMap'](2);
+    const steps = this.props.routes.routes[2].legs[0].steps;
+    this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
 
   showDrive() {
     window['processMap'](3);
+    const steps = this.props.routes.routes[3].legs[0].steps;
+    this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
 
@@ -128,6 +152,9 @@ class GetRoutes extends React.Component {
       case 3:
         callback = () => this.showDrive();
         break;
+      default:
+        callback = () => this.showWalk(); // because why not walk if the program dies
+        break;
     }
     return <Route
       route={route}
@@ -172,13 +199,22 @@ class GetRoutes extends React.Component {
           {this.renderRouteGetter()}
         </>
       );
+    } else if (currentPage === 'ShowRoutes') {
+      return (
+        <>
+          {this.renderAllRoutes()}
+        </>
+      );
+    } else if (currentPage === 'ShowSteps') {
+      return (
+        <>
+          {this.renderAllSteps()}
+        </>
+      );
+    } else {
+      // if this happens we are doomed
+      return null;
     }
-
-    return (
-      <>
-        {this.renderAllRoutes()}
-      </>
-    );
   }
 }
 
