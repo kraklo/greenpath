@@ -2,10 +2,12 @@ let map;
 let storedDirections;
 let path;
 let storedRoutes;
+let directionsService;
+let directionsRenderer;
 
 function initMap() {
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
 
     directionsService.route(
         {
@@ -20,7 +22,6 @@ function initMap() {
         if (status === 'OK') {
             storedDirections = response;
             console.log("ready!");
-            // directionsRenderer.setDirections(response);
         }
     });
 
@@ -31,7 +32,7 @@ function initMap() {
         streetViewControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
     directionsRenderer.setMap(map);
     directionsRenderer.setPanel(document.getElementById('directionsPanel'));
 
@@ -39,10 +40,10 @@ function initMap() {
         loadRoutes();
     }
     const onChangeHandler = function () {
-        processMap(storedRoutes, 0, directionsService, directionsRenderer, map);
+        processMap(storedRoutes, 0);
     };
     const onChangeHandlerTwo = function () {
-        processMap(storedRoutes, 1, directionsService, directionsRenderer, map);
+        processMap(storedRoutes, 1);
     };
 
     document.getElementById("load").addEventListener("click", onLoadHandler);
@@ -63,7 +64,7 @@ function loadRoutes()
     });
 }
 
-function tryProcessMap(index, directionsService, directionsRenderer, map) {
+function tryProcessMap(index) {
     var addressDestination = "ArtsWestMelbourne";
     var addressOrigin = "8SutherlandStreetMelbourne";
     var url = `http://localhost:8080/direction?destination=${addressDestination}&origin=${addressOrigin}`;
@@ -74,14 +75,14 @@ function tryProcessMap(index, directionsService, directionsRenderer, map) {
         console.log(data);
         console.log("Stored Directions 1");
         console.log(storedDirections.routes[0].legs[0].steps.length);
-        processMap(data, index, directionsService, directionsRenderer, map);
+        processMap(data, index);
     });
     //     .catch(function() {
     //     console.log("Booo");
     // });
 }
 
-async function processMap(data, index, directionsService, directionsRenderer, map)
+async function processMap(data, index)
 {
     // var directions = new Directions();
     // directions.routes = [];
@@ -167,7 +168,7 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
         geodesic: true,
         path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
     });
-    addLine(map);
+    addLine();
 
     var bounds = new google.maps.LatLngBounds();
     var northeastBound = directions.routes[0].bounds.northeast;
@@ -177,7 +178,7 @@ async function processMap(data, index, directionsService, directionsRenderer, ma
     map.fitBounds(bounds);
 }
 
-function addLine(map) {
+function addLine() {
     path.setMap(map);
 }
 
