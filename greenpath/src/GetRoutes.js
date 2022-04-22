@@ -1,4 +1,6 @@
 import React from 'react';
+import './GetRoutes.css';
+import { fetchAddresses } from './GetAddresses';
 
 const sampleApiReturn = [
   {
@@ -20,7 +22,11 @@ const sampleApiReturn = [
 
 function RouteGetter(props) {
   return (
-    <button onClick={props.onClick}>Get Routes</button>
+    <div className='button_wrapper'>
+      <button className="go_button" onClick={props.onClick}>
+        <span className="button_text">GO</span>
+      </button>
+    </div>
   );
 }
 
@@ -33,6 +39,8 @@ function Route(props) {
       </div>
     );
   }
+
+  return null;
 }
 
 class RouteRenderer extends React.Component {
@@ -55,8 +63,7 @@ class RouteRenderer extends React.Component {
 
   sendAddresses() {
     this.setState({ error: null });
-    const getAddresses = () => window['getAddresses']();
-    const addresses = getAddresses();
+    const addresses = fetchAddresses();
     console.log(addresses);
     if (addresses.origin && addresses.destination) {
       this.fetchFromApi(addresses.origin, addresses.destination);

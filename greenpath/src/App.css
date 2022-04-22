@@ -1,0 +1,50 @@
+.start_trip {
+    position: absolute;
+    width: 167px;
+    height: 52px;
+    left: 33%;
+    top: 20px;
+
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 130.7%;
+    /* or 52px */
+
+
+    color: #000000;
+}
+
+.title_wrapper {
+    position: static;
+    width: 25px;
+    height: 28px;
+    left: 470px;
+    top: 319px;
+    padding: 20px;
+}
+
+.search_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+
+    position: absolute;
+    width: 445px;
+    height: 360px;
+    left: 70px;
+    top: 158px;
+
+    background: rgba(255, 255, 255, 0.97);
+    /* Box Shadows/Small */
+
+    box-shadow: 0px 11px 20px rgba(5, 16, 55, 0.1);
+    border-radius: 20px;
+}
+
+.GetMap {
+    position: absolute;
+    top: 67px;
+}
