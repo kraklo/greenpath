@@ -2,24 +2,6 @@ import React from 'react';
 import './GetRoutes.css';
 import { fetchAddresses } from './GetAddresses';
 
-const sampleApiReturn = [
-  {
-    method: "bike",
-    footprint: 0,
-    rank: 0,
-  },
-  {
-    method: "car",
-    footprint: 100,
-    rank: 2,
-  },
-  {
-    method: "walk",
-    footprint: 0,
-    rank: 1,
-  }
-];
-
 function RouteGetter(props) {
   return (
     <div className='button_wrapper'>
