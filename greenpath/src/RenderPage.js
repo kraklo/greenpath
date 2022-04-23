@@ -181,7 +181,8 @@ class GetPage extends React.Component {
                 <div className='search_wrapper'>
                     <BackButton onClick={() => this.previousPage()} />
                     <div className="title_wrapper">
-                        <span className="start_trip">Directions</span>
+                        <p className="from"><b>From: </b>{this.state.originAddress}</p>
+                        <p className='to'><b>To: </b>{this.state.destinationAddress}</p>
                     </div>
                     <div className='GetRoutes'>
                         <GetRoutes

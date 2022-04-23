@@ -52,7 +52,7 @@ function Route(props) {
     });
     const emissions = props.route.emissions.value;
     return (
-      <div className='route_option' onClick={props.onClick}>
+      <div className={props.option} onClick={props.onClick}>
         <span className='arrival_destination_time'>{depart} - {arrive}</span>
         <div className='duration_emissions'>
           <span className='duration'>{durationText} / <span className='emissions'>{Math.trunc(emissions)} grams</span></span>
@@ -79,7 +79,7 @@ class GetRoutes extends React.Component {
 
   renderAllSteps() {
     const steps = this.props.stepsToRender;
-    const instructions = steps.map((step) => {
+    const instructions = steps.legs[0].steps.map((step) => {
       return <Step instruction={step.html_instructions} />
     })
 
@@ -88,28 +88,28 @@ class GetRoutes extends React.Component {
 
   showWalk() {
     window['processMap'](0);
-    const steps = this.props.routes.routes[0].legs[0].steps;
+    const steps = this.props.routes.routes[0];
     this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
 
   showBike() {
     window['processMap'](1);
-    const steps = this.props.routes.routes[1].legs[0].steps;
+    const steps = this.props.routes.routes[1];
     this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
 
   showTransit() {
     window['processMap'](2);
-    const steps = this.props.routes.routes[2].legs[0].steps;
+    const steps = this.props.routes.routes[2];
     this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
 
   showDrive() {
     window['processMap'](3);
-    const steps = this.props.routes.routes[3].legs[0].steps;
+    const steps = this.props.routes.routes[3];
     this.props.changeStepsToRender(steps);
     this.props.changePage('ShowSteps');
   }
@@ -141,7 +141,7 @@ class GetRoutes extends React.Component {
     }
   }
 
-  renderRoute(route, i) {
+  renderRoute(route, i, option) {
     let callback;
     switch (i) {
       case 0:
@@ -157,12 +157,13 @@ class GetRoutes extends React.Component {
         callback = () => this.showDrive();
         break;
       default:
-        callback = () => this.showWalk(); // because why not walk if the program dies
+        callback = () => { return; }; // do nothing on click when rendered on show steps
         break;
     }
     return <Route
       route={route}
       onClick={callback}
+      option={option}
     />;
   }
 
@@ -179,7 +180,7 @@ class GetRoutes extends React.Component {
       const routeItems = [];
       let i = 0;
       this.props.routes.routes.forEach(route => {
-        routeItems.push(this.renderRoute(route, i));
+        routeItems.push(this.renderRoute(route, i, 'route_option'));
         i++;
       });
 
@@ -213,6 +214,9 @@ class GetRoutes extends React.Component {
     } else if (currentPage === 'ShowSteps') {
       return (
         <>
+          <hr />
+          {this.renderRoute(this.props.stepsToRender, null, 'directions_option')}
+          <hr />
           {this.renderAllSteps()}
         </>
       );
