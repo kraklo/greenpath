@@ -54,6 +54,17 @@ function initMap() {
     document.getElementById("click-two").addEventListener("click", onChangeHandlerTwo);
 }
 
+function showId(id, bool)
+{
+    let landing = document.getElementById(id);
+    if(landing === null || landing === undefined)
+        return;
+    if(bool)
+        landing.style.display = 'block';
+    else
+        landing.style.display = 'none';
+}
+
 function setStoredData(data)
 {
     storedRoutes = data;
@@ -224,7 +235,7 @@ async function processMap(index)
         path: google.maps.geometry.encoding.decodePath(data.routes[index].overview_polyline.points)
     });
     paths[index].setMap(map);
-    
+
     // var bounds = new google.maps.LatLngBounds();
     // var northeastBound = new google.maps.LatLng(data.routes[index].bounds.northeast.lat + Y_OFFSET, data.routes[index].bounds.northeast.lng - X_OFFSET);
     // var southwestBound = data.routes[index].bounds.southwest;

@@ -1,3 +1,94 @@
+.left-half {
+    height: 100vh;
+    background: #2D2D2D;
+}
+
+.right-half {
+    height: 100vh;
+    background: #81B5A9;
+ }
+
+.row.no-pad {
+    margin-right:0;
+    margin-left:0;
+}
+.row.no-pad > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
+
+.landing-title-left-wrapper, .landing-title-right-wrapper {
+    padding-top: 20%;
+}
+
+.landing-title-left, .landing-title-right {
+    font-size: 500%;
+    font-family: 'Source Sans Pro';
+    font-weight: 900;
+}
+
+.landing-title-left {
+    text-align: right;
+    color: #FFFFFF;
+}
+.landing-title-right-wrapper {
+    text-align: left;
+    color: #000000;
+}
+
+.landing-body-wrapper {
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-right: 30%;
+}
+
+.landing-subtitle {
+    font-size: 300%;
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+.landing-text {
+    font-size: 130%;
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.landing-button-wrapper {
+    padding-top: 10px;
+}
+
+.landing-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    position: static;
+    width: 200px;
+    height: 60px;
+    left: 0px;
+    top: 0px;
+
+    background: #81B5A9;
+    border-radius: 16.4167px;
+    border-width: 0px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.landing-button-text {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.97);
+}
+
 .back_button {
     position: absolute;
     left: 20px;
