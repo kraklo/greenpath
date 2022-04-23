@@ -7,7 +7,7 @@
     height: 100vh;
     background-image: url('./images/BUS.png');
     background-size: cover;
-    overflow: scroll;
+    overflow: hidden;
     background-position: center bottom;
 }
 
