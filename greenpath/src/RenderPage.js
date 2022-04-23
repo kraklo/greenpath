@@ -2,13 +2,6 @@ import React from 'react';
 import GetAddresses from './GetAddresses';
 import GetRoutes from './GetRoutes';
 import './RenderPage.css';
-import BUS from './images/BUS.png';
-import CLOUD from './images/CLOUD.png';
-
-const images = {
-    BUS,
-    CLOUD
-};
 
 function BackButton(props) {
     return (
