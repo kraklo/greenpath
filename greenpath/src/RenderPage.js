@@ -88,13 +88,13 @@ class GetPage extends React.Component {
                         <div className='landing-body-wrapper'>
                             <div className='landing-subtitle-wrapper'>
                                 <p className='landing-subtitle'>
-                                    Take a Cleaner Route
+                                    The path of least <span className='strikethrough'>resistance</span> emissions
                                 </p>
                             </div>
                             <div className='landing-text-wrapper'>
                                 <p className='landing-text'>
-                                    Calculates the gas emissions produced by modes of transportation and
-                                    provides the ideal route for the user.
+                                    Discover the amount of emissions produced by your commute and find an ideal
+                                    healthy path for the environment and for your well-being.
                                 </p>
                             </div>
                             <div className='landing-button-wrapper'>
@@ -105,7 +105,6 @@ class GetPage extends React.Component {
                         </div>
                     </div>
                     <div className='col-md-6 right-half'>
-                        {/* <img className='img-responsive' src={images["BUS"]} alt="Bus"></img> */}
                         <div className='landing-title-right-wrapper'>
                             <p className='landing-title-right'>
                                 Path
