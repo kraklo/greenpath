@@ -2,6 +2,13 @@ import React from 'react';
 import GetAddresses from './GetAddresses';
 import GetRoutes from './GetRoutes';
 import './RenderPage.css';
+import BUS from './images/BUS.png';
+import CLOUD from './images/CLOUD.png';
+
+const images = {
+    BUS,
+    CLOUD
+};
 
 function BackButton(props) {
     return (
@@ -98,6 +105,7 @@ class GetPage extends React.Component {
                         </div>
                     </div>
                     <div className='col-md-6 right-half'>
+                        <img className='img-responsive' src={images["BUS"]} alt="Bus"></img>
                         <div className='landing-title-right-wrapper'>
                             <p className='landing-title-right'>
                                 Path
