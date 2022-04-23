@@ -147,3 +147,17 @@ hr {
 
     background: rgba(255, 255, 255, 0.77);
 }
+
+.step_icon {
+    height: 30px;
+    position: absolute;
+    float: right;
+    top: calc(50% - 15px);
+    right: 15px;
+}
+
+.step {
+    display: inline-block;
+    width: 85%;
+    margin: 0px;
+}

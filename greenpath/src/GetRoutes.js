@@ -16,7 +16,8 @@ const icons = {
 function Step(props) {
   return (
     <div className='step_option'>
-      <span className='step' dangerouslySetInnerHTML={{ __html: props.instruction }}></span>
+      <span className='step' dangerouslySetInnerHTML={{ __html: props.step.html_instructions }}></span>
+      <img className='step_icon' src={icons[props.step.travel_mode]} alt={props.step.travel_mode}></img>
     </div>
   );
 }
@@ -58,7 +59,6 @@ function Route(props) {
           <span className='duration'>{durationText} / <span className='emissions'>{Math.trunc(emissions)} grams</span></span>
         </div>
         <img className='method_icon' src={icons[props.route.type]} alt={props.route.type}></img>
-
       </div>
     );
   }
@@ -80,7 +80,7 @@ class GetRoutes extends React.Component {
   renderAllSteps() {
     const steps = this.props.stepsToRender;
     const instructions = steps.legs[0].steps.map((step) => {
-      return <Step instruction={step.html_instructions} />
+      return <Step step={step} />
     })
 
     return instructions;
