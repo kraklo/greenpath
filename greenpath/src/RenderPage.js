@@ -73,7 +73,7 @@ class GetPage extends React.Component {
     render() {
         const currentPage = this.state.page;
         console.log(currentPage);
-        if(currentPage === 'Landing') {
+        if (currentPage === 'Landing') {
             window['showId']('landing', true);
             window['showId']('main', false);
             window['showId']('map', false);
@@ -105,7 +105,7 @@ class GetPage extends React.Component {
                         </div>
                     </div>
                     <div className='col-md-6 right-half'>
-                        <img className='img-responsive' src={images["BUS"]} alt="Bus"></img>
+                        {/* <img className='img-responsive' src={images["BUS"]} alt="Bus"></img> */}
                         <div className='landing-title-right-wrapper'>
                             <p className='landing-title-right'>
                                 Path

@@ -5,23 +5,29 @@
 
 .right-half {
     height: 100vh;
-    background: #81B5A9;
- }
+    background-image: url('./images/BUS.png');
+    background-size: cover;
+    overflow: scroll;
+    background-position: center bottom;
+}
 
 .row.no-pad {
-    margin-right:0;
-    margin-left:0;
-}
-.row.no-pad > [class*='col-'] {
-    padding-right:0;
-    padding-left:0;
+    margin-right: 0;
+    margin-left: 0;
 }
 
-.landing-title-left-wrapper, .landing-title-right-wrapper {
+.row.no-pad>[class*='col-'] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.landing-title-left-wrapper,
+.landing-title-right-wrapper {
     padding-top: 20%;
 }
 
-.landing-title-left, .landing-title-right {
+.landing-title-left,
+.landing-title-right {
     font-size: 500%;
     font-family: 'Source Sans Pro';
     font-weight: 900;
@@ -31,6 +37,7 @@
     text-align: right;
     color: #FFFFFF;
 }
+
 .landing-title-right-wrapper {
     text-align: left;
     color: #000000;
@@ -87,10 +94,6 @@
     font-weight: 700;
     font-size: 22px;
     color: rgba(255, 255, 255, 0.97);
-}
-
-.image-wrapper {
-
 }
 
 .bus-image {
